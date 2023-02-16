@@ -24,6 +24,11 @@ app.post("/checkout", async function (req, res) {
 	}
 	let total = 0;
 	for (const item of req.body.items) {
+		if (item.quantity <= 0) {
+			return res.status(422).json({
+				message: "Invalid product quantity"
+			});
+		}
 		// const product = products.find((product) => product.idProduct === item.idProduct);
 		const result = await dbAll(`select * from product where id_product = ${item.idProduct}`);
 		if (result.length) {

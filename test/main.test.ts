@@ -70,3 +70,16 @@ test("Não deve aplicar um cupom de desconto expirado", async function () {
 	const output = response.data;
 	expect(output.total).toBe(6090);
 });
+
+test("Não deve fazer um pedido com uma quantidade negativa de produtos", async function () {
+	const input = {
+		cpf: "987.654.321-00",
+		items: [
+			{ idProduct: 1, quantity: -1 }
+		]
+	};
+	const response = await axios.post("http://localhost:3000/checkout", input)
+	expect(response.status).toBe(422);
+	const output = response.data;
+	expect(output.message).toBe("Invalid product quantity");
+});
