@@ -55,3 +55,18 @@ test("Deve fazer um pedido com 3 produtos com cupom de desconto", async function
 	const output = response.data;
 	expect(output.total).toBe(4872);
 });
+
+test("Não deve aplicar um cupom de desconto expirado", async function () {
+	const input = {
+		cpf: "987.654.321-00",
+		items: [
+			{ idProduct: 1, quantity: 1 },
+			{ idProduct: 2, quantity: 1 },
+			{ idProduct: 3, quantity: 3 }
+		],
+		coupon: "VALE10"
+	};
+	const response = await axios.post("http://localhost:3000/checkout", input)
+	const output = response.data;
+	expect(output.total).toBe(6090);
+});

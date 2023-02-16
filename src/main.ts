@@ -37,7 +37,7 @@ app.post("/checkout", async function (req, res) {
 	if (req.body.coupon) {
 		// const coupon = coupons.find(coupon => coupon.code === req.body.coupon);
 		const result = await dbAll(`select * from coupon where code = '${req.body.coupon}'`);
-		if (result.length) {
+		if (result.length && new Date(result[0].expiresIn) >= new Date()) {
 			total -= (total * result[0].percentage)/100;
 		}
 	}

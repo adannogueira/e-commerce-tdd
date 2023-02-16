@@ -10,7 +10,9 @@ insert into product (id_product, description, price) values (3, 'C', 30);
 
 create table coupon (
 	code text primary key,
-	percentage numeric
+	percentage numeric,
+	expiresIn date
 );
 
-insert into coupon (code, percentage) values ('VALE20', 20);
+insert into coupon (code, percentage, expiresIn) values ('VALE20', 20, '2024-01-01');
+insert into coupon (code, percentage, expiresIn) values ('VALE10', 10, '2022-01-01');
