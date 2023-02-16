@@ -24,6 +24,11 @@ app.post("/checkout", async function (req, res) {
 	}
 	let total = 0;
 	for (const item of req.body.items) {
+		if (req.body.items.filter(({ idProduct }: { idProduct: number }) => idProduct === item.idProduct).length > 1) {
+			return res.status(422).json({
+				message: "Invalid cart"
+			});
+		}
 		if (item.quantity <= 0) {
 			return res.status(422).json({
 				message: "Invalid product quantity"

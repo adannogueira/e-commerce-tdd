@@ -83,3 +83,17 @@ test("Não deve fazer um pedido com uma quantidade negativa de produtos", async 
 	const output = response.data;
 	expect(output.message).toBe("Invalid product quantity");
 });
+
+test("Não deve fazer um pedido quando um produto é informado mais de uma vez", async function () {
+	const input = {
+		cpf: "987.654.321-00",
+		items: [
+			{ idProduct: 1, quantity: 1 },
+			{ idProduct: 1, quantity: 2 }
+		]
+	};
+	const response = await axios.post("http://localhost:3000/checkout", input)
+	expect(response.status).toBe(422);
+	const output = response.data;
+	expect(output.message).toBe("Invalid cart");
+});
