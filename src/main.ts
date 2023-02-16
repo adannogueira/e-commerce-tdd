@@ -43,6 +43,11 @@ app.post("/checkout", async function (req, res) {
 					message: "Invalid product dimension"
 				});
 			}
+			if (product.peso < 0) {
+				return res.status(422).json({
+					message: "Invalid product weight"
+				});
+			}
 			total += parseFloat(product.price) * item.quantity;
 		} else {
 			return res.status(422).json({

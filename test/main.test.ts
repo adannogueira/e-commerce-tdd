@@ -110,3 +110,16 @@ test("Não deve fazer um pedido quando alguma dimensão do produto é negativa",
 	const output = response.data;
 	expect(output.message).toBe("Invalid product dimension");
 });
+
+test("Não deve fazer um pedido quando o peso do produto é negativo", async function () {
+	const input = {
+		cpf: "987.654.321-00",
+		items: [
+			{ idProduct: 6, quantity: 1 }
+		]
+	};
+	const response = await axios.post("http://localhost:3000/checkout", input)
+	expect(response.status).toBe(422);
+	const output = response.data;
+	expect(output.message).toBe("Invalid product weight");
+});

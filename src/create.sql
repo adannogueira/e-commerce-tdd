@@ -20,6 +20,9 @@ insert into product (
 insert into product (
 	id_product, description, price, largura, altura, profundidade, peso
 ) values (5, 'D', 30, -100, 30, 10, 3);
+insert into product (
+	id_product, description, price, largura, altura, profundidade, peso
+) values (6, 'E', 30, 100, 30, 10, -3);
 
 create table coupon (
 	code text primary key,
