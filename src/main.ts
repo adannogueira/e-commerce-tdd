@@ -37,7 +37,13 @@ app.post("/checkout", async function (req, res) {
 		// const product = products.find((product) => product.idProduct === item.idProduct);
 		const result = await dbAll(`select * from product where id_product = ${item.idProduct}`);
 		if (result.length) {
-			total += parseFloat(result[0].price) * item.quantity;
+			const product = result[0];
+			if (product.largura < 0 || product.altura < 0 || product.profundidade < 0) {
+				return res.status(422).json({
+					message: "Invalid product dimension"
+				});
+			}
+			total += parseFloat(product.price) * item.quantity;
 		} else {
 			return res.status(422).json({
 				message: "Product not found"
