@@ -123,3 +123,29 @@ test("Não deve fazer um pedido quando o peso do produto é negativo", async fun
 	const output = response.data;
 	expect(output.message).toBe("Invalid product weight");
 });
+
+test("Não deve ter valor de frete menor que $10", async function () {
+	const input = {
+		cpf: "987.654.321-00",
+		items: [
+			{ idProduct: 1, quantity: 1 }
+		]
+	};
+	const response = await axios.post("http://localhost:3000/checkout", input)
+	const output = response.data;
+	expect(output.total).toBe(1000);
+	expect(output.freight).toBe(10);
+});
+
+test("Deve calcular valor de frete com base nos produtos", async function () {
+	const input = {
+		cpf: "987.654.321-00",
+		items: [
+			{ idProduct: 2, quantity: 1 }
+		]
+	};
+	const response = await axios.post("http://localhost:3000/checkout", input)
+	const output = response.data;
+	expect(output.total).toBe(5000);
+	expect(output.freight).toBe(400);
+});
