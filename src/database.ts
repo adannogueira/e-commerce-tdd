@@ -10,7 +10,10 @@ fs.readFileSync(__dirname + '/create.sql').toString().split(';').map(sql => {
 export async function dbAll(query: string): Promise<Record<string, any>[]> { 
   return new Promise(function(resolve,reject){
       db.all(query, function(err,rows){
-         if(err){return reject(err);}
+         if(err) {
+          console.error(err);
+          return reject(err);
+        }
          resolve(rows);
        });
   });
