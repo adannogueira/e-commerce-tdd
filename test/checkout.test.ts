@@ -97,6 +97,24 @@ describe('Checkout()', () => {
 		const output = await checkout.execute(input);
 		expect(output.total).toBe(6090);
 	});
+
+	test.each([
+		['VALE20', true],
+		['VALE10', false],
+		[undefined, undefined]
+	])("Deve validar o cupom de desconto informado e retornar um boolean", async function (coupon, result) {
+		const input = {
+			cpf: "987.654.321-00",
+			items: [
+				{ idProduct: 1, quantity: 1 },
+				{ idProduct: 2, quantity: 1 },
+				{ idProduct: 3, quantity: 3 }
+			],
+			coupon
+		};
+		const output = await checkout.execute(input);
+		expect(output.validCoupon).toBe(result);
+	});
 	
 	test("Não deve fazer um pedido com uma quantidade negativa de produtos", async function () {
 		const input = {

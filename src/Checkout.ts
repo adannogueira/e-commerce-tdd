@@ -44,14 +44,18 @@ export class Checkout {
 				throw new Error("Product not found");
 			}
 		}
+		let validCoupon = undefined;
 		if (input.coupon) {
 			const coupon = await this.couponData.getCoupon(input.coupon);
 			if (coupon && new Date(coupon.expiresIn) >= new Date()) {
+				validCoupon = true;
 				total -= (total * coupon.percentage)/100;
+			} else {
+				validCoupon = false;
 			}
 		}
 		await this.orderData.addOrder(JSON.stringify(input.items.map(item => item.idProduct)))
-		return { total,	freight: Math.round(freight) };
+		return { total,	freight: Math.round(freight), validCoupon };
 	}
 }
 
