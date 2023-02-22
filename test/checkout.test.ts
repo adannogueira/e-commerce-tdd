@@ -1,9 +1,11 @@
 import { Checkout } from '../src/Checkout';
 import { CouponData } from '../src/CouponData';
 import { CurrencyGateway } from '../src/CurrencyGateway';
+import { MyDatabase } from '../src/Database';
+import { OrderData } from '../src/OrderData';
 import { ProductData } from '../src/ProductData';
 
-class Product implements ProductData, CouponData {
+class Product implements ProductData, CouponData, OrderData {
 	getProduct(idProduct: number): Promise<any> {
 		const products: any = {
 			1: { id_product: 1, description: 'Camera', price: 1000, largura: 20, altura: 15, profundidade: 10, peso: 1, currency: 'BRL' },
@@ -24,8 +26,16 @@ class Product implements ProductData, CouponData {
 		}
 		return coupons[coupon];
 	}
+
+	addOrder(order: any): Promise<any> {
+		return Promise.resolve();
+	}
 }
-const checkout = new Checkout(new Product(), new Product());
+const checkout = new Checkout(new Product(), new Product(), new Product());
+
+jest
+			.spyOn(CurrencyGateway.prototype, 'getCurrencies')
+			.mockResolvedValue({ USD: 3, BRL: 1 });
 
 describe('Checkout()', () => {
 	test("Não deve fazer um pedido com cpf inválido", async function () {
@@ -172,5 +182,23 @@ describe('Checkout()', () => {
 		};
 		const output = await checkout.execute(input);
 		expect(output.total).toBe(6180);
+	});
+
+	test("Deve fazer um pedido e salvar os dados no banco", async function () {
+		const databaseSpy = jest
+			.spyOn(Product.prototype, 'addOrder')
+			.mockResolvedValueOnce(null);
+		const input = {
+			cpf: "987.654.321-00",
+			items: [
+				{ idProduct: 1, quantity: 1 },
+				{ idProduct: 2, quantity: 1 },
+				{ idProduct: 3, quantity: 3 },
+				{ idProduct: 7, quantity: 1 }
+			]
+		};
+		const output = await checkout.execute(input);
+		expect(output.total).toBe(6180);
+		expect(databaseSpy).toHaveBeenCalledWith('[1,2,3,7]');
 	});
 });

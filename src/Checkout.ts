@@ -1,12 +1,14 @@
 import { CouponData } from './CouponData';
 import { validate } from './CpfValidator';
 import { CurrencyGateway } from './CurrencyGateway';
+import { OrderData } from './OrderData';
 import { ProductData } from './ProductData';
 
 export class Checkout {
 	constructor(
 		private readonly productData: ProductData,
-		private readonly couponData: CouponData
+		private readonly couponData: CouponData,
+		private readonly orderData: OrderData
 	) {}
 
 	public async execute (input: Input) {
@@ -48,6 +50,7 @@ export class Checkout {
 				total -= (total * coupon.percentage)/100;
 			}
 		}
+		await this.orderData.addOrder(JSON.stringify(input.items.map(item => item.idProduct)))
 		return { total,	freight: Math.round(freight) };
 	}
 }

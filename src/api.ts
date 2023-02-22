@@ -7,7 +7,7 @@ app.use(express.json());
 
 app.post("/checkout", async function (req, res) {
 	const database = new MyDatabase();
-	const checkout = new Checkout(database, database);
+	const checkout = new Checkout(database, database, database);
 	try {
 		const output = await checkout.execute(req.body);
 		res.json(output);
