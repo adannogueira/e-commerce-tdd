@@ -1,3 +1,4 @@
 export interface OrderData {
-  addOrder(order: any): Promise<any>
+  addOrder({ code, order }: { code: string, order: string }): Promise<any>;
+  getLastOrder(): Promise<number>;
 }

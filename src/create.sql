@@ -38,5 +38,7 @@ insert into coupon (code, percentage, expiresIn) values ('VALE20', 20, '2024-01-
 insert into coupon (code, percentage, expiresIn) values ('VALE10', 10, '2022-01-01');
 
 create table orders (
+	id integer primary key,
+	code text,
 	products text
 );

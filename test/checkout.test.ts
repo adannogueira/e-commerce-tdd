@@ -1,7 +1,6 @@
 import { Checkout } from '../src/Checkout';
 import { CouponData } from '../src/CouponData';
 import { CurrencyGateway } from '../src/CurrencyGateway';
-import { MyDatabase } from '../src/Database';
 import { OrderData } from '../src/OrderData';
 import { ProductData } from '../src/ProductData';
 
@@ -29,6 +28,10 @@ class Product implements ProductData, CouponData, OrderData {
 
 	addOrder(order: any): Promise<any> {
 		return Promise.resolve();
+	}
+
+	getLastOrder(): Promise<number> {
+		return Promise.resolve(0);
 	}
 }
 const checkout = new Checkout(new Product(), new Product(), new Product());
@@ -202,7 +205,7 @@ describe('Checkout()', () => {
 		expect(output.total).toBe(6180);
 	});
 
-	test("Deve fazer um pedido e salvar os dados no banco", async function () {
+	test("Deve fazer um pedido e salvar os dados deste pedido", async function () {
 		const databaseSpy = jest
 			.spyOn(Product.prototype, 'addOrder')
 			.mockResolvedValueOnce(null);
@@ -217,6 +220,9 @@ describe('Checkout()', () => {
 		};
 		const output = await checkout.execute(input);
 		expect(output.total).toBe(6180);
-		expect(databaseSpy).toHaveBeenCalledWith('[1,2,3,7]');
+		expect(databaseSpy).toHaveBeenCalledWith({
+			code: `${new Date().getFullYear()}00000001`,
+			order: JSON.stringify(input.items)
+		});
 	});
 });

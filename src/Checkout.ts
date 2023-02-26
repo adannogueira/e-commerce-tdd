@@ -54,7 +54,9 @@ export class Checkout {
 				validCoupon = false;
 			}
 		}
-		await this.orderData.addOrder(JSON.stringify(input.items.map(item => item.idProduct)))
+		const lastId = await this.orderData.getLastOrder();
+		const orderCode = `${new Date().getFullYear()}${(lastId + 1).toString().padStart(8, '0')}`
+		await this.orderData.addOrder({ code: orderCode, order: JSON.stringify(input.items)})
 		return { total,	freight: Math.round(freight), validCoupon };
 	}
 }

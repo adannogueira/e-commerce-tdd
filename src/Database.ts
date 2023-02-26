@@ -29,13 +29,18 @@ export class MyDatabase implements ProductData, CouponData, OrderData {
     }
   }
 
-  public async addOrder(order: any): Promise<any> {
+  public async addOrder({ code, order }: { code: string, order: string }): Promise<any> {
     try {
-      const [result] = await this.dbAll(`insert into orders (products) values ('${order}')`);
+      const [result] = await this.dbAll(`insert into orders (code, products) values ('${code}', '${order}')`);
       return result;
     } catch (error) {
       return null;
     }
+  }
+
+  public async getLastOrder(): Promise<number> {
+    const result = await this.dbAll(`select id from orders order by oid desc limit 1`);
+    return result?.[0]?.id || 0;
   }
 
   private async dbAll(query: string): Promise<Record<string, any>[]> { 
