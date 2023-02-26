@@ -1,3 +1,3 @@
 export interface CouponData {
-  getCoupon(coupon: string): Promise<any>
+  getCoupon(coupon: string): Promise<{ expiresIn: Date, percentage: number }>
 }

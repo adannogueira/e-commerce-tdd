@@ -20,4 +20,10 @@ describe('CouponValidator', () => {
 		const validation = await couponValidator.validate(coupon);
 		expect(validation.isValid).toBe(expected);
 	});
+
+  test("Deve retornar os dados do cupom válido", async function () {
+		const coupon = "VALE20";
+		const validation = await couponValidator.validate(coupon);
+		expect(validation).toEqual({ isValid: true, percentage: 20 });
+	});
 });
