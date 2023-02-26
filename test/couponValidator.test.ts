@@ -26,4 +26,10 @@ describe('CouponValidator', () => {
 		const validation = await couponValidator.validate(coupon);
 		expect(validation).toEqual({ isValid: true, percentage: 20 });
 	});
+
+  test("Deve retornar percentual 0 do cupom inválido", async function () {
+		const coupon = "VALE10";
+		const validation = await couponValidator.validate(coupon);
+		expect(validation).toEqual({ isValid: false, percentage: 0 });
+	});
 });
