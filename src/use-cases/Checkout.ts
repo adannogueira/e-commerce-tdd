@@ -1,8 +1,8 @@
-import { CouponData } from './CouponData';
+import { CouponData } from '../CouponData';
 import { validate } from './CpfValidator';
-import { CurrencyGateway } from './CurrencyGateway';
-import { OrderData } from './OrderData';
-import { ProductData } from './ProductData';
+import { CurrencyGateway } from '../CurrencyGateway';
+import { OrderData } from '../OrderData';
+import { ProductData } from '../ProductData';
 
 export class Checkout {
 	constructor(

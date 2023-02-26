@@ -1,5 +1,5 @@
 import express from "express";
-import { Checkout } from './Checkout';
+import { Checkout } from './use-cases/Checkout';
 import { MyDatabase } from './Database';
 
 const app = express();

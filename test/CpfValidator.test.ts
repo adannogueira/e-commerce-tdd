@@ -1,4 +1,4 @@
-import { validate } from "../src/CpfValidator";
+import { validate } from "../src/use-cases/CpfValidator";
 
 const validCpfs = [
 	"987.654.321-00",

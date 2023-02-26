@@ -1,5 +1,5 @@
 import amqp from 'amqplib';
-import { Checkout } from './Checkout';
+import { Checkout } from './use-cases/Checkout';
 import { MyDatabase } from './Database';
 
 async function init () {

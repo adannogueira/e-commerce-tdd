@@ -1,4 +1,4 @@
-import { Checkout } from './Checkout';
+import { Checkout } from './use-cases/Checkout';
 import { MyDatabase } from './Database';
 
 const input: any = {

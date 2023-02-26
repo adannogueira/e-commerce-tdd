@@ -1,4 +1,4 @@
-import { Checkout } from '../src/Checkout';
+import { Checkout } from '../src/use-cases/Checkout';
 import { CouponData } from '../src/CouponData';
 import { CurrencyGateway } from '../src/CurrencyGateway';
 import { OrderData } from '../src/OrderData';
