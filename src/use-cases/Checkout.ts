@@ -35,9 +35,9 @@ export class Checkout {
 				if (product.peso < 0) {
 					throw new Error("Invalid product weight");
 				}
-				total += (parseFloat(product.price) * item.quantity) * currencies[product.currency];
-				const volume = (parseInt(product.largura) * parseInt(product.altura) * parseInt(product.profundidade)) * 0.000001;
-				const densidade = parseInt(product.peso) / volume;
+				total += (product.price * item.quantity) * currencies[product.currency];
+				const volume = (product.largura * product.altura * product.profundidade) * 0.000001;
+				const densidade = product.peso / volume;
 				const frete = 1000 * volume * (densidade / 100);
 				freight += frete > 10 ? frete : 10;
 			} else {

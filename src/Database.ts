@@ -1,6 +1,6 @@
 import { Database } from 'sqlite3'
 import fs from 'fs'
-import { ProductData } from './ProductData';
+import { Product, ProductData } from './ProductData';
 import { CouponData } from './CouponData';
 import { OrderData } from './OrderData';
 
@@ -11,10 +11,28 @@ fs.readFileSync(__dirname + '/create.sql').toString().split(';').map(sql => {
 })
 
 export class MyDatabase implements ProductData, CouponData, OrderData {
-  public async getProduct(idProduct: number): Promise<any> {
+  public async getProduct(idProduct: number): Promise<Product | null> {
     try {
-      const [result] = await this.dbAll(`select * from product where id_product = ${idProduct}`);
-      return result;
+      const [{
+        id_product,
+        description,
+        price,
+        largura,
+        altura,
+        profundidade,
+        peso,
+        currency
+      }] = await this.dbAll(`select * from product where id_product = ${idProduct}`);
+      return {
+        id_product,
+        description,
+        price: parseFloat(price),
+        largura: parseInt(largura),
+        altura: parseInt(altura),
+        profundidade: parseInt(profundidade),
+        peso: parseInt(peso),
+        currency
+      };
     } catch (error) {
       return null;
     }
