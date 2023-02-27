@@ -3,12 +3,14 @@ import { CurrencyGateway } from '../CurrencyGateway';
 import { OrderData } from '../OrderData';
 import { ProductData } from '../ProductData';
 import { CouponValidator } from './CouponValidator';
+import { FreightCalculator } from './FreightCalculator';
 
 export class Checkout {
 	constructor(
 		private readonly productData: ProductData,
 		private readonly couponvalidator: CouponValidator,
-		private readonly orderData: OrderData
+		private readonly orderData: OrderData,
+		private readonly freightCalculator: FreightCalculator
 	) {}
 
 	public async execute (input: Input) {
@@ -28,21 +30,9 @@ export class Checkout {
 				throw new Error("Invalid product quantity");
 			}
 			const product = await this.productData.getProduct(item.idProduct);
-			if (product) {
-				if (product.largura < 0 || product.altura < 0 || product.profundidade < 0) {
-					throw new Error("Invalid product dimension");
-				}
-				if (product.peso < 0) {
-					throw new Error("Invalid product weight");
-				}
-				total += (product.price * item.quantity) * currencies[product.currency];
-				const volume = (product.largura * product.altura * product.profundidade) * 0.000001;
-				const densidade = product.peso / volume;
-				const frete = 1000 * volume * (densidade / 100);
-				freight += frete > 10 ? frete : 10;
-			} else {
-				throw new Error("Product not found");
-			}
+			if (!product) throw new Error("Product not found");
+			total += (product.price * item.quantity) * currencies[product.currency];
+			freight += this.freightCalculator.execute(product);
 		}
 		const coupon = await this.couponvalidator.validate(input.coupon);
 		total -= (total * coupon.percentage)/100;

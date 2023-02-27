@@ -4,6 +4,7 @@ import { CurrencyGateway } from '../src/CurrencyGateway';
 import { OrderData } from '../src/OrderData';
 import { ProductData } from '../src/ProductData';
 import { CouponValidator } from '../src/use-cases/CouponValidator';
+import { FreightCalculator } from '../src/use-cases/FreightCalculator';
 
 class Product implements ProductData, CouponData, OrderData {
 	getProduct(idProduct: number): Promise<any> {
@@ -37,7 +38,7 @@ class Product implements ProductData, CouponData, OrderData {
 }
 
 
-const checkout = new Checkout(new Product(), new CouponValidator(new Product()), new Product());
+const checkout = new Checkout(new Product(), new CouponValidator(new Product()), new Product(), new FreightCalculator());
 
 jest
 			.spyOn(CurrencyGateway.prototype, 'getCurrencies')
