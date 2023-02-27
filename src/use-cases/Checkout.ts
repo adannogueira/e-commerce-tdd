@@ -38,7 +38,14 @@ export class Checkout {
 		total -= (total * coupon.percentage)/100;
 		const lastId = await this.orderData.getLastOrder();
 		const orderCode = `${new Date().getFullYear()}${(lastId + 1).toString().padStart(8, '0')}`
-		await this.orderData.addOrder({ code: orderCode, order: JSON.stringify(input.items)})
+		await this.orderData.addOrder({
+			code: orderCode,
+			couponCode: input.coupon,
+			couponPercentage: coupon.percentage,
+			cpf: input.cpf,
+			freight,
+			total
+		})
 		return { total,	freight: Math.round(freight), validCoupon: coupon.isValid };
 	}
 }

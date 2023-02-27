@@ -11,6 +11,6 @@ export class FreightCalculator {
     const volume = (product.largura * product.altura * product.profundidade) * 0.000001;
     const densidade = product.peso / volume;
     const frete = 1000 * volume * (densidade / 100);
-    return frete > 10 ? frete : 10;
+    return frete > 10 ? Math.round(frete) : 10;
   }
 }

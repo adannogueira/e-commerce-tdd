@@ -1,4 +1,14 @@
 export interface OrderData {
-  addOrder({ code, order }: { code: string, order: string }): Promise<any>;
+  addOrder(data: Order): Promise<any>;
   getLastOrder(): Promise<number>;
 }
+
+export type Order = {
+  couponCode?: string,
+  couponPercentage: number,
+  code: string,
+  cpf: string,
+  email?: string,
+  freight: number,
+  total: number
+};

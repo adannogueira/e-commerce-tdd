@@ -2,7 +2,7 @@ import { Database } from 'sqlite3'
 import fs from 'fs'
 import { Product, ProductData } from './ProductData';
 import { CouponData } from './CouponData';
-import { OrderData } from './OrderData';
+import { Order, OrderData } from './OrderData';
 
 const db = new Database(':memory:');
 
@@ -47,9 +47,37 @@ export class MyDatabase implements ProductData, CouponData, OrderData {
     }
   }
 
-  public async addOrder({ code, order }: { code: string, order: string }): Promise<any> {
+  public async addOrder({
+    couponCode,
+    couponPercentage,
+    code,
+    cpf,
+    email,
+    freight,
+    total
+  }: Order): Promise<any> {
     try {
-      const [result] = await this.dbAll(`insert into orders (code, products) values ('${code}', '${order}')`);
+      const [result] = await this.dbAll(`
+        insert into 'order' (
+          coupon_code,
+          coupon_percentage,
+          code,
+          cpf,
+          email,
+          issue_date,
+          freight,
+          total
+        ) values (
+          '${couponCode}',
+          '${couponPercentage}',
+          '${code}',
+          '${cpf}',
+          '${email}',
+          'now()',
+          '${freight}',
+          '${total}'
+        )
+      `);
       return result;
     } catch (error) {
       return null;
@@ -57,7 +85,7 @@ export class MyDatabase implements ProductData, CouponData, OrderData {
   }
 
   public async getLastOrder(): Promise<number> {
-    const result = await this.dbAll(`select id from orders order by oid desc limit 1`);
+    const result = await this.dbAll(`select id_order from 'order' order by oid desc limit 1`);
     return result?.[0]?.id || 0;
   }
 

@@ -226,7 +226,11 @@ describe('Checkout()', () => {
 		expect(output.total).toBe(6180);
 		expect(databaseSpy).toHaveBeenCalledWith({
 			code: `${new Date().getFullYear()}00000001`,
-			order: JSON.stringify(input.items)
+			couponCode: undefined,
+			couponPercentage: 0,
+			cpf: "987.654.321-00",
+			freight: 470,
+			total: 6180
 		});
 	});
 });

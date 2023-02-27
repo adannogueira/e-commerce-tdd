@@ -37,8 +37,24 @@ create table coupon (
 insert into coupon (code, percentage, expiresIn) values ('VALE20', 20, '2024-01-01');
 insert into coupon (code, percentage, expiresIn) values ('VALE10', 10, '2022-01-01');
 
-create table orders (
-	id integer primary key,
+create table 'order' (
+	id_order integer primary key,
+	coupon_code text,
+	coupon_percentage numeric,
 	code text,
+	cpf text,
+	email text,
+	issue_date timestamp,
+	freight numeric,
+	total numeric,
+	sequence integer,
 	products text
 );
+
+create table item (
+	id_order integer references 'order' (id_order),
+	id_product integer references product (id_product),
+	price numeric,
+	quantity integer,
+	primary key (id_order, id_product)
+)
