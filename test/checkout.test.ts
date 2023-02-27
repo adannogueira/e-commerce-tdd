@@ -3,6 +3,7 @@ import { CouponData } from '../src/CouponData';
 import { CurrencyGateway } from '../src/CurrencyGateway';
 import { OrderData } from '../src/OrderData';
 import { ProductData } from '../src/ProductData';
+import { CouponValidator } from '../src/use-cases/CouponValidator';
 
 class Product implements ProductData, CouponData, OrderData {
 	getProduct(idProduct: number): Promise<any> {
@@ -34,7 +35,9 @@ class Product implements ProductData, CouponData, OrderData {
 		return Promise.resolve(0);
 	}
 }
-const checkout = new Checkout(new Product(), new Product(), new Product());
+
+
+const checkout = new Checkout(new Product(), new CouponValidator(new Product()), new Product());
 
 jest
 			.spyOn(CurrencyGateway.prototype, 'getCurrencies')
@@ -104,7 +107,7 @@ describe('Checkout()', () => {
 	test.each([
 		['VALE20', true],
 		['VALE10', false],
-		[undefined, undefined]
+		[undefined, false]
 	])("Deve validar o cupom de desconto informado e retornar um boolean", async function (coupon, result) {
 		const input = {
 			cpf: "987.654.321-00",

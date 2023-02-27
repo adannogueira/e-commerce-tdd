@@ -1,13 +1,13 @@
-import { CouponData } from '../CouponData';
 import { validate } from './CpfValidator';
 import { CurrencyGateway } from '../CurrencyGateway';
 import { OrderData } from '../OrderData';
 import { ProductData } from '../ProductData';
+import { CouponValidator } from './CouponValidator';
 
 export class Checkout {
 	constructor(
 		private readonly productData: ProductData,
-		private readonly couponData: CouponData,
+		private readonly couponvalidator: CouponValidator,
 		private readonly orderData: OrderData
 	) {}
 
@@ -44,20 +44,12 @@ export class Checkout {
 				throw new Error("Product not found");
 			}
 		}
-		let validCoupon = undefined;
-		if (input.coupon) {
-			const coupon = await this.couponData.getCoupon(input.coupon);
-			if (coupon && new Date(coupon.expiresIn) >= new Date()) {
-				validCoupon = true;
-				total -= (total * coupon.percentage)/100;
-			} else {
-				validCoupon = false;
-			}
-		}
+		const coupon = await this.couponvalidator.validate(input.coupon);
+		total -= (total * coupon.percentage)/100;
 		const lastId = await this.orderData.getLastOrder();
 		const orderCode = `${new Date().getFullYear()}${(lastId + 1).toString().padStart(8, '0')}`
 		await this.orderData.addOrder({ code: orderCode, order: JSON.stringify(input.items)})
-		return { total,	freight: Math.round(freight), validCoupon };
+		return { total,	freight: Math.round(freight), validCoupon: coupon.isValid };
 	}
 }
 
