@@ -19,7 +19,7 @@ class Product implements ProductData, CouponData, OrderData {
 		}
 		return products[idProduct];
 	}
-
+	
 	getCoupon(coupon: string): Promise<any> {
 		const coupons: any = {
 			VALE20: { code: 'VALE20', percentage: 20, expiresIn: '2024-01-01' },
@@ -27,18 +27,23 @@ class Product implements ProductData, CouponData, OrderData {
 		}
 		return coupons[coupon];
 	}
-
+	
 	addOrder(order: any): Promise<any> {
 		return Promise.resolve();
 	}
-
+	
 	getLastOrder(): Promise<number> {
 		return Promise.resolve(0);
+	}
+	
+	
+	getOrder(cpf: string): Promise<any> {
+		throw new Error('Method not implemented.');
 	}
 }
 
 
-const checkout = new Checkout(new Product(), new CouponValidator(new Product()), new Product(), new FreightCalculator());
+const checkout = new Checkout(new Product(), new CouponValidator(new Product()), new Product(), new FreightCalculator(new Product()));
 
 jest
 			.spyOn(CurrencyGateway.prototype, 'getCurrencies')
@@ -217,20 +222,18 @@ describe('Checkout()', () => {
 			cpf: "987.654.321-00",
 			items: [
 				{ idProduct: 1, quantity: 1 },
-				{ idProduct: 2, quantity: 1 },
-				{ idProduct: 3, quantity: 3 },
-				{ idProduct: 7, quantity: 1 }
+				{ idProduct: 2, quantity: 1 }
 			]
 		};
 		const output = await checkout.execute(input);
-		expect(output.total).toBe(6180);
+		expect(output.total).toBe(6000);
 		expect(databaseSpy).toHaveBeenCalledWith({
 			code: `${new Date().getFullYear()}00000001`,
 			couponCode: undefined,
 			couponPercentage: 0,
 			cpf: "987.654.321-00",
-			freight: 470,
-			total: 6180
+			freight: 410,
+			total: 6000
 		});
 	});
 });

@@ -19,7 +19,6 @@ export class Checkout {
 			throw new Error("Invalid cpf");
 		}
 		let total = 0;
-		let freight = 0;
 		const currencyGateway = new CurrencyGateway();
 		const currencies: any = await currencyGateway.getCurrencies();
 		for (const item of input.items) {
@@ -32,8 +31,8 @@ export class Checkout {
 			const product = await this.productData.getProduct(item.idProduct);
 			if (!product) throw new Error("Product not found");
 			total += (product.price * item.quantity) * currencies[product.currency];
-			freight += this.freightCalculator.execute(product);
 		}
+		const freight = await this.freightCalculator.execute(input.items);
 		const coupon = await this.couponvalidator.validate(input.coupon);
 		total -= (total * coupon.percentage)/100;
 		const lastId = await this.orderData.getLastOrder();
