@@ -89,6 +89,11 @@ export class MyDatabase implements ProductData, CouponData, OrderData {
     return result?.[0]?.id || 0;
   }
 
+  public async getOrder(cpf: string): Promise<any> {
+    const [result] = await this.dbAll(`select * from 'order' where cpf = '${cpf}'`);
+    return result;
+  }
+
   private async dbAll(query: string): Promise<Record<string, any>[]> { 
     return new Promise(function(resolve,reject){
         db.all(query, function(err,rows){
