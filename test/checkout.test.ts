@@ -43,7 +43,7 @@ class Product implements ProductData, CouponData, OrderData {
 }
 
 
-const checkout = new Checkout(new Product(), new CouponValidator(new Product()), new Product(), new FreightCalculator(new Product()));
+const checkout = new Checkout(new Product(), new CouponValidator(new Product()), new Product(), FreightCalculator);
 
 jest
 			.spyOn(CurrencyGateway.prototype, 'getCurrencies')

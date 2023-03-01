@@ -11,7 +11,7 @@ describe('GetOrder', () => {
       database,
       new CouponValidator(database),
       database,
-      new FreightCalculator(database)
+      FreightCalculator
     );
     const input = {
       cpf: '987.654.321-00',
