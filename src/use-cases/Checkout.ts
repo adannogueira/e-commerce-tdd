@@ -4,6 +4,7 @@ import { OrderData } from '../OrderData';
 import { ProductData } from '../ProductData';
 import { CouponValidator } from './CouponValidator';
 import { FreightCalculator } from './FreightCalculator';
+import { OrderCode } from '../OrderCode';
 
 export class Checkout {
 	constructor(
@@ -36,10 +37,10 @@ export class Checkout {
 		}
 		const coupon = await this.couponvalidator.validate(total, input.coupon);
 		total -= coupon.discount;
-		const lastId = await this.orderData.getLastOrder();
-		const orderCode = `${new Date().getFullYear()}${(lastId + 1).toString().padStart(8, '0')}`;
+		const sequence = await this.orderData.getLastOrder() + 1;
+		const orderCode =  new OrderCode(({ orderDate: new Date(), sequence }));
 		await this.orderData.addOrder({
-			code: orderCode,
+			code: orderCode.getCode(),
 			couponCode: input.coupon,
 			couponPercentage: coupon.discount,
 			cpf: input.cpf,
