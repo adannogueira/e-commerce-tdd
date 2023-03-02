@@ -40,8 +40,8 @@ export class MyDatabase implements ProductData, CouponData, OrderData {
 
   public async getCoupon(coupon: string): Promise<any> {
     try {
-      const [result] = await this.dbAll(`select * from coupon where code = '${coupon}'`);
-      return result;
+      const [{ code, expiresIn, percentage }] = await this.dbAll(`select * from coupon where code = '${coupon}'`);
+      return { code, percentage, expiresIn: new Date(expiresIn) };
     } catch (error) {
       return null;
     }

@@ -34,14 +34,14 @@ export class Checkout {
 			total += (product.price * item.quantity) * currencies[product.currency];
 			freight += this.freightCalculator.calculate(product);
 		}
-		const coupon = await this.couponvalidator.validate(input.coupon);
-		total -= (total * coupon.percentage)/100;
+		const coupon = await this.couponvalidator.validate(total, input.coupon);
+		total -= coupon.discount;
 		const lastId = await this.orderData.getLastOrder();
-		const orderCode = `${new Date().getFullYear()}${(lastId + 1).toString().padStart(8, '0')}`
+		const orderCode = `${new Date().getFullYear()}${(lastId + 1).toString().padStart(8, '0')}`;
 		await this.orderData.addOrder({
 			code: orderCode,
 			couponCode: input.coupon,
-			couponPercentage: coupon.percentage,
+			couponPercentage: coupon.discount,
 			cpf: input.cpf,
 			freight,
 			total

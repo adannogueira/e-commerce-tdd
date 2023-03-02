@@ -22,8 +22,8 @@ class Product implements ProductData, CouponData, OrderData {
 	
 	getCoupon(coupon: string): Promise<any> {
 		const coupons: any = {
-			VALE20: { code: 'VALE20', percentage: 20, expiresIn: '2024-01-01' },
-			VALE10: { code: 'VALE10', percentage: 10, expiresIn: '2022-01-01' }
+			VALE20: { code: 'VALE20', percentage: 20, expiresIn: new Date('2024-01-01') },
+			VALE10: { code: 'VALE10', percentage: 10, expiresIn: new Date('2022-01-01') }
 		}
 		return coupons[coupon];
 	}
