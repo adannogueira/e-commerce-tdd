@@ -55,7 +55,7 @@ describe('Checkout()', () => {
 			cpf: "987.654.321-01"
 		};
 		const promise = checkout.execute(input);
-		await expect(promise).rejects.toThrow("Invalid cpf");
+		await expect(promise).rejects.toThrow("Invalid CPF");
 	});
 	
 	test("Deve fazer um pedido com 3 produtos", async function () {

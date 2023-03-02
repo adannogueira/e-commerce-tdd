@@ -10,5 +10,13 @@ describe('Order', () => {
 
     // Assert
     expect(order.getTotal()).toBe(0);
+  });
+
+  it('Should not create an order with invalid CPF', () => {
+    // Arrange
+    const invalidCpf = '111.111.111-00';
+
+    // Act & Assert
+    expect(() => new Order(invalidCpf)).toThrow('Invalid CPF');
   })
-})
+});

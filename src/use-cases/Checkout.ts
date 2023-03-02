@@ -1,10 +1,10 @@
-import { validate } from './CpfValidator';
 import { CurrencyGateway } from '../CurrencyGateway';
 import { OrderData } from '../OrderData';
 import { ProductData } from '../ProductData';
 import { CouponValidator } from './CouponValidator';
 import { FreightCalculator } from './FreightCalculator';
 import { OrderCode } from '../OrderCode';
+import { Cpf } from '../Cpf';
 
 export class Checkout {
 	constructor(
@@ -15,10 +15,7 @@ export class Checkout {
 	) {}
 
 	public async execute (input: Input) {
-		const isValid = validate(input.cpf);
-		if (!isValid) {
-			throw new Error("Invalid cpf");
-		}
+		const cpf = new Cpf(input.cpf);
 		let total = 0;
 		let freight = 0;
 		const currencyGateway = new CurrencyGateway();
@@ -43,7 +40,7 @@ export class Checkout {
 			code: orderCode.getCode(),
 			couponCode: input.coupon,
 			couponPercentage: coupon.discount,
-			cpf: input.cpf,
+			cpf: cpf.getValue(),
 			freight,
 			total
 		})
