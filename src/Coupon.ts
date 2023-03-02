@@ -1,21 +1,21 @@
 export class Coupon {
   private readonly code: string;
-  private readonly expireDate: Date;
+  private readonly expiresIn: Date;
   private readonly percentage: number;
 
   constructor({
     code,
-    expireDate,
+    expiresIn,
     percentage
   }: props) {
     this.code = code;
-    this.expireDate = expireDate;
+    this.expiresIn = expiresIn;
     this.percentage = percentage;
   }
 
   isExpired(): boolean {
     const today = new Date();
-    return today.getTime() > this.expireDate.getTime();
+    return today.getTime() > this.expiresIn.getTime();
   }
 
   getDiscount(total: number): number {
@@ -26,6 +26,6 @@ export class Coupon {
 
 type props = {
   code: string,
-  expireDate: Date,
+  expiresIn: Date,
   percentage: number
 }
