@@ -12,4 +12,13 @@ describe('OrderCode', () => {
     // Assert
     expect(orderCode.getCode()).toBe('202300000001');
   });
+
+  it('Should not create a code when sequence is invalid', () => {
+    // Arrange
+    const orderDate = new Date('2023/01/01');
+    const sequence = -1;
+
+    // Act & Assert
+    expect(() => new OrderCode(({ orderDate, sequence }))).toThrow('Invalid sequence');
+  });
 });

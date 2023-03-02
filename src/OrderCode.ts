@@ -3,7 +3,8 @@ export class OrderCode {
   readonly sequence: number;
   private readonly code: string;
 
-  public constructor({ orderDate, sequence }: any) {
+  public constructor({ orderDate, sequence }: { orderDate: Date, sequence: number }) {
+    if (sequence < 1) throw new Error('Invalid sequence');
     this.orderDate = orderDate;
     this.sequence = sequence;
     this.code = `${orderDate.getFullYear()}${(sequence).toString().padStart(8, '0')}`;
