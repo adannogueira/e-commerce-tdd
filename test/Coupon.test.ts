@@ -26,5 +26,18 @@ describe('Coupon', () => {
 
     expect(discountValue).toBe(100);
   });
+
+  it('Should not apply a discount percentage when coupon is expired', () => {
+    const coupon = new Coupon({
+      code: 'COUPON',
+      expireDate: new Date('2022/01/01'),
+      percentage: 10
+    });
+    const total = 1000;
+
+    const discountValue = coupon.getDiscount(total);
+
+    expect(discountValue).toBe(0);
+  });
 });
 

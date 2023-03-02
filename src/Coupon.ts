@@ -19,6 +19,7 @@ export class Coupon {
   }
 
   getDiscount(total: number): number {
+    if (this.isExpired()) return 0;
     return (total * this.percentage) / 100;
   }
 }
