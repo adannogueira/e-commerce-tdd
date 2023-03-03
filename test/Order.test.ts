@@ -26,8 +26,8 @@ describe('Order', () => {
     // Arrange
     const validCpf = '987.654.321-00';
     const product1 = new Product(1, 'A', 1000, 100, 30, 10, 3);
-    const product2 = new Product(1, 'B', 5000, 50, 50, 50, 22);
-    const product3 = new Product(1, 'C', 30, 10, 10, 10, 1);
+    const product2 = new Product(2, 'B', 5000, 50, 50, 50, 22);
+    const product3 = new Product(3, 'C', 30, 10, 10, 10, 1);
     const order = new Order(validCpf);
 
     // Act
@@ -49,12 +49,23 @@ describe('Order', () => {
     expect(() => order.addItem(product1, -1)).toThrow('Invalid product quantity');
   });
 
+  it('Should not create an order with duplicated item', () => {
+    // Arrange
+    const validCpf = '987.654.321-00';
+    const product1 = new Product(1, 'A', 1000, 100, 30, 10, 3);
+    const product2 = new Product(1, 'A', 1000, 100, 30, 10, 3);
+    const order = new Order(validCpf);
+    order.addItem(product1, 1)
+    // Act & Assert
+    expect(() => order.addItem(product2, 1)).toThrow('Invalid cart');
+  });
+
   it('Should create an order with three items', () => {
     // Arrange
     const validCpf = '987.654.321-00';
     const product1 = new Product(1, 'A', 1000, 100, 30, 10, 3);
-    const product2 = new Product(1, 'B', 5000, 50, 50, 50, 22);
-    const product3 = new Product(1, 'C', 30, 10, 10, 10, 1);
+    const product2 = new Product(2, 'B', 5000, 50, 50, 50, 22);
+    const product3 = new Product(3, 'C', 30, 10, 10, 10, 1);
     const order = new Order(validCpf);
 
     // Act

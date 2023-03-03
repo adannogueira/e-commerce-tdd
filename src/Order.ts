@@ -14,6 +14,9 @@ export class Order {
   }
 
   public addItem(product: Product, quantity: number): void {
+    if (this.items.find(item => item.idProduct === product.idProduct)) {
+      throw new Error('Invalid cart');
+    }
     this.items.push(new Item(product.idProduct, product.price, quantity));
   }
 
