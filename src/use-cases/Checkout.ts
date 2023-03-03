@@ -29,7 +29,7 @@ export class Checkout {
 			}
 			const product = await this.productData.getProduct(item.idProduct);
 			if (!product) throw new Error("Product not found");
-			total += (product.price * item.quantity) * currencies[product.currency];
+			total += (product.price * item.quantity) * (product.currency ? currencies[product.currency] : 1);
 			freight += this.freightCalculator.calculate(product);
 		}
 		const coupon = await this.couponvalidator.validate(total, input.coupon);

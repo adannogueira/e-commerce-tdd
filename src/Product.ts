@@ -6,6 +6,7 @@ export class Product {
     readonly width: number,
     readonly height: number,
     readonly length: number,
-    readonly weight: number
+    readonly weight: number,
+    readonly currency?: string
   ) { }
 }

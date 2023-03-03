@@ -1,8 +1,9 @@
 import { Database } from 'sqlite3'
 import fs from 'fs'
-import { Product, ProductData } from './ProductData';
+import { ProductData } from './ProductData';
 import { CouponData } from './CouponData';
 import { Order, OrderData } from './OrderData';
+import { Product } from './Product';
 
 const db = new Database(':memory:');
 
@@ -17,20 +18,20 @@ export class MyDatabase implements ProductData, CouponData, OrderData {
         id_product,
         description,
         price,
-        largura,
-        altura,
-        profundidade,
-        peso,
+        width,
+        height,
+        length,
+        weight,
         currency
       }] = await this.dbAll(`select * from product where id_product = ${idProduct}`);
       return {
-        id_product,
+        idProduct: id_product,
         description,
         price: parseFloat(price),
-        largura: parseInt(largura),
-        altura: parseInt(altura),
-        profundidade: parseInt(profundidade),
-        peso: parseInt(peso),
+        width: parseInt(width),
+        height: parseInt(height),
+        length: parseInt(length),
+        weight: parseInt(weight),
         currency
       };
     } catch (error) {

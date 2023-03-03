@@ -1,15 +1,15 @@
-import { Product } from '../ProductData';
+import { Product } from '../Product';
 
 export class FreightCalculator {
   static calculate(product: Product) {
-    if (product.largura < 0 || product.altura < 0 || product.profundidade < 0) {
+    if (product.height < 0 || product.length < 0 || product.width < 0) {
       throw new Error('Invalid product dimension');
     }
-    if (product.peso < 0) {
+    if (product.weight < 0) {
       throw new Error('Invalid product weight');
     }
-    const volume = (product.largura * product.altura * product.profundidade) * 0.000001;
-    const densidade = product.peso / volume;
+    const volume = (product.height * product.length * product.width) * 0.000001;
+    const densidade = product.weight / volume;
     const frete = (1000 * volume * (densidade / 100));
     return frete > 10 ? Math.round(frete) : 10;
   }

@@ -9,13 +9,13 @@ import { FreightCalculator } from '../src/use-cases/FreightCalculator';
 class Product implements ProductData, CouponData, OrderData {
 	getProduct(idProduct: number): Promise<any> {
 		const products: any = {
-			1: { id_product: 1, description: 'Camera', price: 1000, largura: 20, altura: 15, profundidade: 10, peso: 1, currency: 'BRL' },
-			2: { id_product: 2, description: 'Geladeira', price: 5000, largura: 200, altura: 10, profundidade: 50, peso: 40, currency: 'BRL' },
-			3: { id_product: 3, description: 'Guitarra', price: 30, largura: 100, altura: 30, profundidade: 10, peso: 3, currency: 'BRL' },
+			1: { idProduct: 1, description: 'Camera', price: 1000, width: 20, height: 15, length: 10, weight: 1, currency: 'BRL' },
+			2: { idProduct: 2, description: 'Geladeira', price: 5000, width: 200, height: 10, length: 50, weight: 40, currency: 'BRL' },
+			3: { idProduct: 3, description: 'Guitarra', price: 30, width: 100, height: 30, length: 10, weight: 3, currency: 'BRL' },
 			4: null,
-			5: { id_product: 5, description: 'D', price: 30, largura: -100, altura: 30, profundidade: 10, peso: 3, currency: 'BRL' },
-			6: { id_product: 6, description: 'E', price: 30, largura: 100, altura: 30, profundidade: 10, peso: -3, currency: 'BRL' },
-			7: { id_product: 7, description: 'Guitar', price: 30, largura: 100, altura: 30, profundidade: 10, peso: 3, currency: 'USD' },
+			5: { idProduct: 5, description: 'D', price: 30, width: -100, height: 30, length: 10, weight: 3, currency: 'BRL' },
+			6: { idProduct: 6, description: 'E', price: 30, width: 100, height: 30, length: 10, weight: -3, currency: 'BRL' },
+			7: { idProduct: 7, description: 'Guitar', price: 30, width: 100, height: 30, length: 10, weight: 3, currency: 'USD' },
 		}
 		return products[idProduct];
 	}
@@ -162,7 +162,7 @@ describe('Checkout()', () => {
 		await expect(promise).rejects.toThrow("Invalid product dimension");
 	});
 	
-	test("Não deve fazer um pedido quando o peso do produto é negativo", async function () {
+	test("Não deve fazer um pedido quando o weight do produto é negativo", async function () {
 		const input = {
 			cpf: "987.654.321-00",
 			items: [

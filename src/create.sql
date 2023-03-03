@@ -2,30 +2,30 @@ create table product (
 	id_product integer primary key,
 	description text,
 	price numeric,
-	largura integer,
-	altura integer,
-	profundidade integer,
-	peso integer,
+	width integer,
+	height integer,
+	length integer,
+	weight integer,
 	currency text
 );
 
 insert into product (
-	id_product, description, price, largura, altura, profundidade, peso, currency
+	id_product, description, price, width, height, length, weight, currency
 ) values (1, 'Camera', 1000, 20, 15, 10, 1, 'BRL');
 insert into product (
-	id_product, description, price, largura, altura, profundidade, peso, currency
+	id_product, description, price, width, height, length, weight, currency
 ) values (2, 'Geladeira', 5000, 200, 100, 50, 40, 'BRL');
 insert into product (
-	id_product, description, price, largura, altura, profundidade, peso, currency
+	id_product, description, price, width, height, length, weight, currency
 ) values (3, 'Guitarra', 30, 100, 30, 10, 3, 'BRL');
 insert into product (
-	id_product, description, price, largura, altura, profundidade, peso, currency
+	id_product, description, price, width, height, length, weight, currency
 ) values (5, 'D', 30, -100, 30, 10, 3, 'BRL');
 insert into product (
-	id_product, description, price, largura, altura, profundidade, peso, currency
+	id_product, description, price, width, height, length, weight, currency
 ) values (6, 'E', 30, 100, 30, 10, -3, 'BRL');
 insert into product (
-	id_product, description, price, largura, altura, profundidade, peso, currency
+	id_product, description, price, width, height, length, weight, currency
 ) values (7, 'Guitar', 30, 100, 30, 10, 3, 'USD');
 
 create table coupon (
