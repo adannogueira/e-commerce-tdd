@@ -36,7 +36,7 @@ describe('Order', () => {
     order.addItem(product3, 3);
 
     // Assert
-    expect(order.getTotal()).toBe(6090);
+    expect(order.getTotal()).toBe(6350);
   });
 
   it('Should not create an order with negative item quantity', () => {
@@ -74,6 +74,23 @@ describe('Order', () => {
     order.addItem(product3, 3);
 
     // Assert
-    expect(order.getTotal()).toBe(6090);
+    expect(order.getTotal()).toBe(6350);
+  });
+
+  it('Should create an order with three items and calculate the freight', () => {
+    // Arrange
+    const validCpf = '987.654.321-00';
+    const product1 = new Product(1, 'A', 1000, 100, 30, 10, 3);
+    const product2 = new Product(2, 'B', 5000, 50, 50, 50, 22);
+    const product3 = new Product(3, 'C', 30, 10, 10, 10, 1);
+    const order = new Order(validCpf);
+
+    // Act
+    order.addItem(product1, 1);
+    order.addItem(product2, 1);
+    order.addItem(product3, 3);
+
+    // Assert
+    expect(order.getTotal()).toBe(6350);
   });
 });
