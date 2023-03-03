@@ -13,4 +13,15 @@ describe('Item', () => {
     // Assert
     expect(item.getTotal()).toEqual(price * quantity);
   });
+
+  it('Should not create an Item with invalid quantity', () => {
+    // Arrange
+    const idProduct = 1;
+    const price = 100;
+    const quantity = -2; 
+
+    // Act & Assert
+    expect(() => new Item(idProduct, price, quantity))
+      .toThrow('Invalid product quantity');
+  });
 });

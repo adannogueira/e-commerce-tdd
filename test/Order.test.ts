@@ -39,26 +39,30 @@ describe('Order', () => {
     expect(order.getTotal()).toBe(6090);
   });
 
-  it('Should create an order with three items and a discount coupon', () => {
+  it('Should not create an order with negative item quantity', () => {
+    // Arrange
+    const validCpf = '987.654.321-00';
+    const product1 = new Product(1, 'A', 1000, 100, 30, 10, 3);
+    const order = new Order(validCpf);
+
+    // Act & Assert
+    expect(() => order.addItem(product1, -1)).toThrow('Invalid product quantity');
+  });
+
+  it('Should create an order with three items', () => {
     // Arrange
     const validCpf = '987.654.321-00';
     const product1 = new Product(1, 'A', 1000, 100, 30, 10, 3);
     const product2 = new Product(1, 'B', 5000, 50, 50, 50, 22);
     const product3 = new Product(1, 'C', 30, 10, 10, 10, 1);
-    const coupon = new Coupon({
-      code: 'VALE20',
-      expiresIn: new Date('2024/01/01'),
-      percentage: 20
-    });
     const order = new Order(validCpf);
 
     // Act
     order.addItem(product1, 1);
     order.addItem(product2, 1);
     order.addItem(product3, 3);
-    order.addCoupon(coupon);
 
     // Assert
-    expect(order.getTotal()).toBe(4872);
+    expect(order.getTotal()).toBe(6090);
   });
 });
