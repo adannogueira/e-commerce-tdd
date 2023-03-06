@@ -4,6 +4,7 @@ import { ProductData } from './ProductData';
 import { CouponData } from './CouponData';
 import { Order, OrderData } from './OrderData';
 import { Product } from './Product';
+import { Coupon } from './Coupon';
 
 const db = new Database(':memory:');
 
@@ -24,25 +25,25 @@ export class MyDatabase implements ProductData, CouponData, OrderData {
         weight,
         currency
       }] = await this.dbAll(`select * from product where id_product = ${idProduct}`);
-      return {
-        idProduct: id_product,
+      return new Product(
+        id_product,
         description,
-        price: parseFloat(price),
-        width: parseInt(width),
-        height: parseInt(height),
-        length: parseInt(length),
-        weight: parseInt(weight),
+        parseFloat(price),
+        parseFloat(width),
+        parseFloat(height),
+        parseFloat(length),
+        parseFloat(weight),
         currency
-      };
+      );
     } catch (error) {
       return null;
     }
   }
 
-  public async getCoupon(coupon: string): Promise<any> {
+  public async getCoupon(coupon: string): Promise<Coupon | null> {
     try {
       const [{ code, expiresIn, percentage }] = await this.dbAll(`select * from coupon where code = '${coupon}'`);
-      return { code, percentage, expiresIn: new Date(expiresIn) };
+      return new Coupon({ code, percentage: parseFloat(percentage), expiresIn: new Date(expiresIn) });
     } catch (error) {
       return null;
     }

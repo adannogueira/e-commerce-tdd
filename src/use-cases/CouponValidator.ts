@@ -9,9 +9,8 @@ export class CouponValidator {
     couponData?: string
   ): Promise<{ isValid: boolean, discount: number }> {
 		if (couponData) {
-			const existingCoupon = await this.couponData.getCoupon(couponData);
-			if (existingCoupon) {
-        const coupon = new Coupon(existingCoupon)
+			const coupon = await this.couponData.getCoupon(couponData);
+			if (coupon) {
 				return { isValid: !coupon.isExpired(), discount: coupon.getDiscount(total) };
 			}
     }
