@@ -1,8 +1,8 @@
-import { MyDatabase } from '../src/Database';
-import { FreightCalculator } from '../src/use-cases/FreightCalculator';
-import { SimulateFreight } from '../src/use-cases/SimulateFreight';
+import { Database } from '../src/infra/data/Database';
+import { SimulateFreight } from '../src/application/SimulateFreight'; 
+import { SqLiteConnection } from '../src/infra/database/SqLiteConnection';
 
-const database = new MyDatabase();
+const database = new Database(new SqLiteConnection());
 const simulateFreight = new SimulateFreight(database);
 
 describe('SimulateFreight', () => {

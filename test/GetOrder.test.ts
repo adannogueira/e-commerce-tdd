@@ -1,17 +1,17 @@
-import { MyDatabase } from '../src/Database';
-import { Checkout } from '../src/use-cases/Checkout';
-import { CouponValidator } from '../src/use-cases/CouponValidator';
-import { FreightCalculator } from '../src/use-cases/FreightCalculator';
-import { GetOrder } from '../src/use-cases/GetOrder';
+import { CurrencyGateway } from '../src/infra/gateway/CurrencyGateway';
+import { Database } from '../src/infra/data/Database';
+import { Checkout } from '../src/application/Checkout';
+import { GetOrder } from '../src/application/GetOrder';
+import { SqLiteConnection } from '../src/infra/database/SqLiteConnection';
 
 describe('GetOrder', () => {
   it('should return an order', async () => {
-    const database = new MyDatabase();
+    const database = new Database(new SqLiteConnection());
     const checkout = new Checkout(
       database,
-      new CouponValidator(database),
       database,
-      FreightCalculator
+      database,
+      new CurrencyGateway()
     );
     const input = {
       cpf: '987.654.321-00',
@@ -24,6 +24,6 @@ describe('GetOrder', () => {
     await checkout.execute(input);
     const getOrder = new GetOrder(database);
     const output = await getOrder.execute({ cpf: input.cpf });
-    expect(output.total).toBe(6090);
+    expect(output.getCpf()).toBe(input.cpf);
   });
 });

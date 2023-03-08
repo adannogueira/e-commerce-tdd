@@ -7,6 +7,6 @@ export class Product {
     readonly height: number,
     readonly length: number,
     readonly weight: number,
-    readonly currency?: string
+    readonly currency: string = 'BRL'
   ) { }
 }

@@ -1,12 +1,13 @@
-import { CouponValidator } from '../src/use-cases/CouponValidator';
+import { Coupon } from '../src/domain/entities/Coupon';
+import { CouponValidator } from '../src/application/CouponValidator';
 
 class CouponData {
-  getCoupon(coupon: string): Promise<any> {
+  getCoupon(coupon: string): Promise<Coupon> {
 		const coupons: any = {
 			VALE20: { code: 'VALE20', percentage: 20, expiresIn: new Date('2024-01-01') },
 			VALE10: { code: 'VALE10', percentage: 10, expiresIn: new Date('2022-01-01') }
 		}
-		return coupons[coupon];
+		return Promise.resolve(new Coupon(coupons[coupon]));
 	}
 }
 

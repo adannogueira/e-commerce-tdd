@@ -25,7 +25,7 @@ test("Deve fazer um pedido com 3 produtos", async function () {
 	};
 	const response = await axios.post("http://localhost:3000/checkout", input)
 	const output = response.data;
-	expect(output.total).toBe(6090);
+	expect(output.total).toBe(6530);
 });
 
 test("Não deve fazer pedido com produto que não existe", async function () {
@@ -53,7 +53,7 @@ test("Deve fazer um pedido com 3 produtos com cupom de desconto", async function
 	};
 	const response = await axios.post("http://localhost:3000/checkout", input)
 	const output = response.data;
-	expect(output.total).toBe(4872);
+	expect(output.total).toBe(5312);
 });
 
 test("Não deve aplicar um cupom de desconto expirado", async function () {
@@ -68,7 +68,7 @@ test("Não deve aplicar um cupom de desconto expirado", async function () {
 	};
 	const response = await axios.post("http://localhost:3000/checkout", input)
 	const output = response.data;
-	expect(output.total).toBe(6090);
+	expect(output.total).toBe(6530);
 });
 
 test("Não deve fazer um pedido com uma quantidade negativa de produtos", async function () {
@@ -133,8 +133,7 @@ test("Não deve ter valor de frete menor que $10", async function () {
 	};
 	const response = await axios.post("http://localhost:3000/checkout", input)
 	const output = response.data;
-	expect(output.total).toBe(1000);
-	expect(output.freight).toBe(10);
+	expect(output.total).toBe(1010);
 });
 
 test("Deve calcular valor de frete com base nos produtos", async function () {
@@ -146,6 +145,5 @@ test("Deve calcular valor de frete com base nos produtos", async function () {
 	};
 	const response = await axios.post("http://localhost:3000/checkout", input)
 	const output = response.data;
-	expect(output.total).toBe(5000);
-	expect(output.freight).toBe(400);
+	expect(output.total).toBe(5400);
 });

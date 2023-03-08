@@ -1,5 +1,5 @@
-import { ProductData } from '../ProductData';
-import { FreightCalculator } from './FreightCalculator';
+import { ProductData } from '../domain/data/ProductData';
+import { FreightCalculator } from '../domain/entities/FreightCalculator';
 
 export class SimulateFreight {
   constructor(private readonly productData: ProductData) {}

@@ -1,13 +1,14 @@
 import { Coupon } from './Coupon';
 import { Cpf } from './Cpf';
+import { Currencies } from './Currencies';
 import { Item } from './Item';
 import { OrderCode } from './OrderCode';
 import { Product } from './Product';
-import { FreightCalculator } from './use-cases/FreightCalculator';
+import { FreightCalculator } from './FreightCalculator';
 
 export class Order {
-  private readonly cpf: Cpf;
-  private readonly orderCode: OrderCode;
+  readonly cpf: Cpf;
+  readonly orderCode: OrderCode;
   private items: Item[];
   private coupon?: Coupon;
   private freight = 0;
@@ -18,16 +19,24 @@ export class Order {
     this.items = [];
   }
 
-  public addItem(product: Product, quantity: number): void {
+  public addItem(
+    product: Product,
+    quantity: number,
+    currencyCode: string = 'BRL',
+    currencyValue: number = 1): void {
     if (this.items.find(item => item.idProduct === product.idProduct)) {
       throw new Error('Invalid cart');
     }
-    this.items.push(new Item(product.idProduct, product.price, quantity));
+    this.items.push(new Item(product.idProduct, product.price, quantity, currencyCode, currencyValue));
     this.freight += FreightCalculator.calculate(product);
   }
 
   public addCoupon(coupon: Coupon): void {
     if (!coupon.isExpired()) this.coupon = coupon;
+  }
+
+  public getCpf(): string {
+    return this.cpf.getValue();
   }
 
   public getCode(): string {

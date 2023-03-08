@@ -1,4 +1,4 @@
-import { FreightCalculator } from '../src/use-cases/FreightCalculator';
+import { FreightCalculator } from '../src/domain/entities/FreightCalculator';
 
 describe('FreightCalculator', () => {
   test("Deve gerar exceção quando alguma dimensão do produto é negativa", function () {
