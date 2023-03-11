@@ -8,9 +8,7 @@ export class FreightCalculator {
     if (product.weight < 0) {
       throw new Error('Invalid product weight');
     }
-    const volume = (product.height * product.length * product.width) * 0.000001;
-    const densidade = product.weight / volume;
-    const frete = (1000 * volume * (densidade / 100));
+    const frete = (1000 * product.calculateVolume() * (product.calculateDensity() / 100));
     return frete > 10 ? Math.round(frete) : 10;
   }
 }

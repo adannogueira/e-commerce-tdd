@@ -23,9 +23,33 @@ describe('Order', () => {
 
   it('Should create an order with three items', () => {
     // Arrange
-    const product1 = new Product(1, 'A', 1000, 100, 30, 10, 3);
-    const product2 = new Product(2, 'B', 5000, 50, 50, 50, 22);
-    const product3 = new Product(3, 'C', 30, 10, 10, 10, 1);
+    const product1 = new Product({ 
+      idProduct: 1,
+      description: 'A',
+      price: 1000,
+      width: 100,
+      height: 30,
+      length: 10,
+      weight: 3
+    });
+    const product2 = new Product({ 
+      idProduct: 2,
+      description: 'B',
+      price: 5000,
+      width: 50,
+      height: 50,
+      length: 50, 
+      weight:22
+    });
+    const product3 = new Product({ 
+      idProduct: 3,
+      description: 'C',
+      price: 30,
+      width: 10,
+      height: 10,
+      length: 10,
+      weight: 1
+    });
     const order = makeSut();
 
     // Act
@@ -39,7 +63,15 @@ describe('Order', () => {
 
   it('Should not create an order with negative item quantity', () => {
     // Arrange
-    const product1 = new Product(1, 'A', 1000, 100, 30, 10, 3);
+    const product1 = new Product({ 
+      idProduct: 1,
+      description: 'A',
+      price: 1000,
+      width: 100,
+      height: 30,
+      length: 10,
+      weight: 3
+    });
     const order = makeSut();
 
     // Act & Assert
@@ -48,8 +80,24 @@ describe('Order', () => {
 
   it('Should not create an order with duplicated item', () => {
     // Arrange
-    const product1 = new Product(1, 'A', 1000, 100, 30, 10, 3);
-    const product2 = new Product(1, 'A', 1000, 100, 30, 10, 3);
+    const product1 = new Product({ 
+      idProduct: 1,
+      description: 'A',
+      price: 1000,
+      width: 100,
+      height: 30,
+      length: 10,
+      weight: 3
+    });
+    const product2 = new Product({ 
+      idProduct: 1,
+      description: 'A',
+      price: 1000,
+      width: 100,
+      height: 30,
+      length: 10,
+      weight: 3
+    });
     const order = makeSut();
     order.addItem(product1, 1)
     
@@ -59,9 +107,33 @@ describe('Order', () => {
 
   it('Should create an order with three items', () => {
     // Arrange
-    const product1 = new Product(1, 'A', 1000, 100, 30, 10, 3);
-    const product2 = new Product(2, 'B', 5000, 50, 50, 50, 22);
-    const product3 = new Product(3, 'C', 30, 10, 10, 10, 1);
+    const product1 = new Product({ 
+      idProduct: 1,
+      description: 'A',
+      price: 1000,
+      width: 100,
+      height: 30,
+      length: 10,
+      weight: 3
+    });
+    const product2 = new Product({ 
+      idProduct: 2,
+      description: 'B',
+      price: 5000,
+      width: 50,
+      height: 50,
+      length: 50, 
+      weight:22
+    });
+    const product3 = new Product({ 
+      idProduct: 3,
+      description: 'C',
+      price: 30,
+      width: 10,
+      height: 10,
+      length: 10,
+      weight: 1
+    });
     const order = makeSut();
 
     // Act
@@ -77,7 +149,15 @@ describe('Order', () => {
     // Arrange
     const validCpf = '987.654.321-00';
     const sequence = 1;
-    const product1 = new Product(1, 'A', 1000, 100, 30, 10, 3);
+    const product1 = new Product({ 
+      idProduct: 1,
+      description: 'A',
+      price: 1000,
+      width: 100,
+      height: 30,
+      length: 10,
+      weight: 3
+    });
     
     const order = new Order(validCpf, sequence);
 

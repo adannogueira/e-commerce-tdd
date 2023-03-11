@@ -21,16 +21,16 @@ export class Database implements ProductData, CouponData, OrderData {
         weight,
         currency
       }] = await this.connection.query(`select * from product where id_product = ${idProduct}`);
-      return new Product(
-        id_product,
+      return new Product({
+        idProduct: id_product,
         description,
-        parseFloat(price),
-        parseFloat(width),
-        parseFloat(height),
-        parseFloat(length),
-        parseFloat(weight),
+        price: parseFloat(price),
+        width: parseFloat(width),
+        height:parseFloat(height),
+        length: parseFloat(length),
+        weight: parseFloat(weight),
         currency
-      );
+      });
     } catch (error) {
       return null;
     }
