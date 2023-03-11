@@ -12,6 +12,9 @@ export class Product {
     if (height < 0 || length < 0 || width < 0) {
       throw new Error('Invalid product dimension');
     };
+    if (weight < 0) {
+      throw new Error('Invalid product weight');
+    }
     this.idProduct = idProduct;
     this.description = description;
     this.price = price;
