@@ -5,6 +5,7 @@ import { ProductData } from '../src/domain/data/ProductData';
 import { Coupon } from '../src/domain/entities/Coupon';
 import { Currencies } from '../src/domain/entities/Currencies';
 import { Checkout } from '../src/application/Checkout';
+import { Order } from '../src/domain/entities/Order';
 
 class Product implements ProductData, CouponData, OrderData {
 	getProduct(idProduct: number): Promise<any> {
@@ -38,6 +39,10 @@ class Product implements ProductData, CouponData, OrderData {
 	
 	
 	getOrder({ cpf, code }: any): Promise<any> {
+		throw new Error('Method not implemented.');
+	}
+	
+	listOrders(params: { cpf?: string | undefined; }): Promise<Order[]> {
 		throw new Error('Method not implemented.');
 	}
 }

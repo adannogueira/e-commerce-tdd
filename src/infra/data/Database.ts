@@ -67,20 +67,23 @@ export class Database implements ProductData, CouponData, OrderData {
     return result?.[0]?.id || 0;
   }
 
-  public async getOrder({ cpf, code }: { cpf?: string, code?: string }): Promise<any> {
-    let query = `select * from 'order' where `;
-    if (cpf) {
-      query += `cpf = '${cpf}'`;
-    }
-    if (code) {
-      query += `code = '${code}'`;
-    }
+  public async getOrder({ code }: { code?: string }): Promise<Order> {
     try {
-      const [result] = await this.connection.query(query);
+      const [result] = await this.connection.query(`select * from 'order' where code = '${code}'`);
       const order = new Order(result.cpf, result.code.match(/^\d{4}0+(\d+)/)[1])
       return order;
     } catch (error) {
-      return null;
+      throw new Error();
+    }
+  }
+
+  public async listOrders({ cpf }: { cpf: string }): Promise<Order[]> {
+    try {
+      const result = await this.connection.query(`select * from 'order' where cpf = '${cpf}'`);
+      const orders = result.map((order: any) => new Order(order.cpf, order.code.match(/^\d{4}0+(\d+)/)[1]));
+      return orders;
+    } catch (error) {
+      throw new Error(`Error consulting orders from cpf: ${cpf}`);
     }
   }
 }
