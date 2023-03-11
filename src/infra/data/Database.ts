@@ -67,9 +67,16 @@ export class Database implements ProductData, CouponData, OrderData {
     return result?.[0]?.id || 0;
   }
 
-  public async getOrder(cpf: string): Promise<any> {
+  public async getOrder({ cpf, code }: { cpf?: string, code?: string }): Promise<any> {
+    let query = `select * from 'order' where `;
+    if (cpf) {
+      query += `cpf = '${cpf}'`;
+    }
+    if (code) {
+      query += `code = '${code}'`;
+    }
     try {
-      const [result] = await this.connection.query(`select * from 'order' where cpf = '${cpf}'`);
+      const [result] = await this.connection.query(query);
       const order = new Order(result.cpf, result.code.match(/^\d{4}0+(\d+)/)[1])
       return order;
     } catch (error) {

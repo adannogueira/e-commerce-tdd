@@ -37,7 +37,7 @@ class Product implements ProductData, CouponData, OrderData {
 	}
 	
 	
-	getOrder(cpf: string): Promise<any> {
+	getOrder({ cpf, code }: any): Promise<any> {
 		throw new Error('Method not implemented.');
 	}
 }
