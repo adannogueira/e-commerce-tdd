@@ -9,12 +9,7 @@ export class Product {
   readonly currency: string;
 
   public constructor({ idProduct, description, price, width, height, length, weight, currency }: Props) {
-    if (height < 0 || length < 0 || width < 0) {
-      throw new Error('Invalid product dimension');
-    };
-    if (weight < 0) {
-      throw new Error('Invalid product weight');
-    }
+    this.validateProps({ height, width, weight })
     this.idProduct = idProduct;
     this.description = description;
     this.price = price;
@@ -33,6 +28,15 @@ export class Product {
   public calculateDensity(): number {
     const density = this.weight / this.calculateVolume();
     return +density.toFixed(2);
+  }
+
+  private validateProps({ height, length, width, weight }: Record<string, number>): void {
+    if (height < 0 || length < 0 || width < 0) {
+      throw new Error('Invalid product dimension');
+    };
+    if (weight < 0) {
+      throw new Error('Invalid product weight');
+    }
   }
 }
 
