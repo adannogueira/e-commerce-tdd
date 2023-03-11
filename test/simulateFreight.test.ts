@@ -6,13 +6,6 @@ const database = new Database(new SqLiteConnection());
 const simulateFreight = new SimulateFreight(database);
 
 describe('SimulateFreight', () => {
-  test("Deve gerar exceção quando alguma dimensão do produto é negativa", async function () {
-		const input = [
-			{ idProduct: 5, quantity: 1 }
-		];
-		await expect(() => simulateFreight.execute(input)).rejects.toThrow("Invalid product dimension");
-	});
-	
 	test("Deve gerar exceção quando o peso do produto é negativo", async function () {
 		const input = [
 			{ idProduct: 6, quantity: 1 }

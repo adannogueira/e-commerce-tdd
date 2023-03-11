@@ -10,30 +10,18 @@ export class Database implements ProductData, CouponData, OrderData {
   public constructor(private readonly connection: Connection) {}
 
   public async getProduct(idProduct: number): Promise<Product | null> {
-    try {
-      const [{
-        id_product,
-        description,
-        price,
-        width,
-        height,
-        length,
-        weight,
-        currency
-      }] = await this.connection.query(`select * from product where id_product = ${idProduct}`);
-      return new Product({
-        idProduct: id_product,
-        description,
-        price: parseFloat(price),
-        width: parseFloat(width),
-        height:parseFloat(height),
-        length: parseFloat(length),
-        weight: parseFloat(weight),
-        currency
-      });
-    } catch (error) {
-      return null;
-    }
+    const [foundProduct] = await this.connection.query(`select * from product where id_product = ${idProduct}`);
+    if (!foundProduct) throw new Error('Product not found');
+    return new Product({
+      idProduct: foundProduct.id_product,
+      description: foundProduct.description,
+      price: parseFloat(foundProduct.price),
+      width: parseFloat(foundProduct.width),
+      height:parseFloat(foundProduct.height),
+      length: parseFloat(foundProduct.length),
+      weight: parseFloat(foundProduct.weight),
+      currency: foundProduct.currency
+    });
   }
 
   public async getCoupon(coupon: string): Promise<Coupon | null> {

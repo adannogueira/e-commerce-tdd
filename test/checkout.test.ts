@@ -19,6 +19,7 @@ class Database implements ProductData, CouponData, OrderData {
 			6: { idProduct: 6, description: 'E', price: 30, width: 100, height: 30, length: 10, weight: -3, currency: 'BRL' },
 			7: { idProduct: 7, description: 'Guitar', price: 30, width: 100, height: 30, length: 10, weight: 3, currency: 'USD' },
 		}
+		if (!products[idProduct]) throw new Error('Product not found');
 		return Promise.resolve(new Product(products[idProduct]));
 	}
 	
@@ -79,7 +80,7 @@ describe('Checkout()', () => {
 		expect(output.total).toBe(6530);
 	});
 	
-	test.skip("Não deve fazer pedido com produto que não existe", async function () {
+	test("Não deve fazer pedido com produto que não existe", async function () {
 		const input = {
 			cpf: "987.654.321-00",
 			items: [

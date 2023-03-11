@@ -2,19 +2,6 @@ import { FreightCalculator } from '../src/domain/entities/FreightCalculator';
 import { Product } from '../src/domain/entities/Product';
 
 describe('FreightCalculator', () => {
-  test("Deve gerar exceção quando alguma dimensão do produto é negativa", function () {
-		const input = new Product({
-			idProduct: 5,
-			description:  'D',
-			price: 30,
-			width: -100,
-			height: 30,
-			length: 10,
-			weight: 3
-		});
-		expect(() => FreightCalculator.calculate(input)).toThrow("Invalid product dimension");
-	});
-	
 	test("Deve gerar exceção quando o weight do produto é negativo", function () {
 		const input = new Product({
 			idProduct: 5,

@@ -9,6 +9,9 @@ export class Product {
   readonly currency: string;
 
   public constructor({ idProduct, description, price, width, height, length, weight, currency }: Props) {
+    if (height < 0 || length < 0 || width < 0) {
+      throw new Error('Invalid product dimension');
+    };
     this.idProduct = idProduct;
     this.description = description;
     this.price = price;
