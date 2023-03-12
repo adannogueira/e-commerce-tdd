@@ -3,7 +3,7 @@ export class Coordinates {
 		return new Coordinates(latitude, longitude);
 	}
 
-	private constructor (readonly lat: number, readonly long: number) { }
+	private constructor (readonly latitude: number, readonly longitude: number) { }
 }
 
 type Props = { latitude: number, longitude: number };
