@@ -5,8 +5,10 @@ import { Coupon } from '../../domain/entities/Coupon';
 import { Order } from '../../domain/entities/Order';
 import { OrderData } from '../../domain/data/OrderData';
 import { Connection } from '../database/Connection';
+import { CoordinateData } from '../../domain/data/CoordinateData';
+import { Coordinates } from '../../domain/entities/Coordinates';
 
-export class Database implements ProductData, CouponData, OrderData {
+export class Database implements ProductData, CouponData, OrderData, CoordinateData {
   public constructor(private readonly connection: Connection) {}
 
   public async getProduct(idProduct: number): Promise<Product | null> {
@@ -73,5 +75,11 @@ export class Database implements ProductData, CouponData, OrderData {
     } catch (error) {
       throw new Error(`Error consulting orders from cpf: ${cpf}`);
     }
+  }
+
+  public async getCoordinate(cep: string): Promise<Coordinates> {
+    const [result] = await this.connection.query(`select * from 'cep' where code = '${cep}'`)
+    if (!result) throw new Error(`CEP ${cep} not found`);
+    return Coordinates.create({ latitude: result.lat, longitude: result.lng });
   }
 }

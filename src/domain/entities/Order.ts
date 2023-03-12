@@ -28,7 +28,7 @@ export class Order {
       throw new Error('Invalid cart');
     }
     this.items.push(new Item(product.idProduct, product.price, quantity, currencyCode, currencyValue));
-    this.freight += FreightCalculator.calculate(product);
+    this.freight += FreightCalculator.calculate(product, 1000);
   }
 
   public addCoupon(coupon: Coupon): void {

@@ -3,7 +3,6 @@ import { Coordinates } from './Coordinates';
 
 const MILES_TO_KM = 1.609344;
 export class DistanceCalculator {
-
 	static calculate (from: Coordinates, to: Coordinates) {
 		if (from.latitude == to.latitude && from.longitude == to.longitude) return 0;
 		const radlat1 = (Math.PI * from.latitude) / 180;
