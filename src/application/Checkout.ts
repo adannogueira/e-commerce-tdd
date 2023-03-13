@@ -19,7 +19,7 @@ export class Checkout {
 		for (const item of input.items) {
 			const product = await this.productData.getProduct(item.idProduct);
 			if (!product) throw new Error("Product not found");
-			order.addItem(product, item.quantity, product.currency, currencies.getCurrency(product.currency));
+			order.addItem(product, item.quantity, 1000, product.currency, currencies.getCurrency(product.currency));
 		}
 		if (input.coupon) {
 			const coupon = await this.couponData.getCoupon(input.coupon);

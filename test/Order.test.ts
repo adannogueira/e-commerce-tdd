@@ -2,7 +2,8 @@ import { Coupon } from '../src/domain/entities/Coupon';
 import { Order } from '../src/domain/entities/Order';
 import { Product } from '../src/domain/entities/Product';
 
-const sequence = 1;
+const SEQUENCE = 1;
+const DISTANCE = 1000;
 
 describe('Order', () => {
   it('Should create an empty order with a valid CPF', () => {
@@ -18,7 +19,7 @@ describe('Order', () => {
     const invalidCpf = '111.111.111-00';
 
     // Act & Assert
-    expect(() => new Order(invalidCpf, sequence)).toThrow('Invalid CPF');
+    expect(() => new Order(invalidCpf, SEQUENCE)).toThrow('Invalid CPF');
   });
 
   it('Should create an order with three items', () => {
@@ -53,9 +54,9 @@ describe('Order', () => {
     const order = makeSut();
 
     // Act
-    order.addItem(product1, 1);
-    order.addItem(product2, 1);
-    order.addItem(product3, 3);
+    order.addItem(product1, 1, DISTANCE);
+    order.addItem(product2, 1, DISTANCE);
+    order.addItem(product3, 3, DISTANCE);
 
     // Assert
     expect(order.getTotal()).toBe(6350);
@@ -75,7 +76,7 @@ describe('Order', () => {
     const order = makeSut();
 
     // Act & Assert
-    expect(() => order.addItem(product1, -1)).toThrow('Invalid product quantity');
+    expect(() => order.addItem(product1, -1, DISTANCE)).toThrow('Invalid product quantity');
   });
 
   it('Should not create an order with duplicated item', () => {
@@ -99,10 +100,10 @@ describe('Order', () => {
       weight: 3
     });
     const order = makeSut();
-    order.addItem(product1, 1)
+    order.addItem(product1, 1, DISTANCE)
     
     // Act & Assert
-    expect(() => order.addItem(product2, 1)).toThrow('Invalid cart');
+    expect(() => order.addItem(product2, 1, DISTANCE)).toThrow('Invalid cart');
   });
 
   it('Should create an order with three items', () => {
@@ -137,9 +138,9 @@ describe('Order', () => {
     const order = makeSut();
 
     // Act
-    order.addItem(product1, 1);
-    order.addItem(product2, 1);
-    order.addItem(product3, 3);
+    order.addItem(product1, 1, DISTANCE);
+    order.addItem(product2, 1, DISTANCE);
+    order.addItem(product3, 3, DISTANCE);
 
     // Assert
     expect(order.getTotal()).toBe(6350);
@@ -162,7 +163,7 @@ describe('Order', () => {
     const order = new Order(validCpf, sequence);
 
     // Act
-    order.addItem(product1, 1);
+    order.addItem(product1, 1, DISTANCE);
 
     // Assert
     expect(order.getCode()).toBe('202300000001');

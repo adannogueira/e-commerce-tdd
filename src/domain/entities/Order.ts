@@ -1,6 +1,5 @@
 import { Coupon } from './Coupon';
 import { Cpf } from './Cpf';
-import { Currencies } from './Currencies';
 import { Item } from './Item';
 import { OrderCode } from './OrderCode';
 import { Product } from './Product';
@@ -22,13 +21,14 @@ export class Order {
   public addItem(
     product: Product,
     quantity: number,
+    distance: number,
     currencyCode: string = 'BRL',
     currencyValue: number = 1): void {
     if (this.items.find(item => item.idProduct === product.idProduct)) {
       throw new Error('Invalid cart');
     }
     this.items.push(new Item(product.idProduct, product.price, quantity, currencyCode, currencyValue));
-    this.freight += FreightCalculator.calculate(product, 1000);
+    this.freight += FreightCalculator.calculate(product, distance);
   }
 
   public addCoupon(coupon: Coupon): void {
