@@ -69,3 +69,4 @@ create table cep (
 insert into cep (code, lat, lng) values ('29060090', -20.2821890, -40.2898775);
 insert into cep (code, lat, lng) values ('29560000', -20.7697279, -41.6722965);
 insert into cep (code, lat, lng) values ('29500000', -20.7627978, -41.5323939);
+insert into cep (code, lat, lng) values ('47820000', -12.61090938578852, -45.18807094350862);

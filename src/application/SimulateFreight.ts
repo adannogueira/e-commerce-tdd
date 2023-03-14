@@ -15,8 +15,8 @@ export class SimulateFreight {
     to: string
   ): Promise<number> {
     let freight = 0;
-    const fromCoordinate = await this.coordinateData.getCoordinate(from.replace(/\D/g, ''));
-    const toCoordinate = await this.coordinateData.getCoordinate(to.replace(/\D/g, ''));
+    const fromCoordinate = await this.coordinateData.getCoordinate(from);
+    const toCoordinate = await this.coordinateData.getCoordinate(to);
     const distance = DistanceCalculator.calculate(fromCoordinate, toCoordinate);
     for (const item of items) {
       const product = await this.productData.getProduct(item.idProduct);

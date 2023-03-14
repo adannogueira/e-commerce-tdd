@@ -78,7 +78,7 @@ export class Database implements ProductData, CouponData, OrderData, CoordinateD
   }
 
   public async getCoordinate(cep: string): Promise<Coordinates> {
-    const [result] = await this.connection.query(`select * from 'cep' where code = '${cep}'`)
+    const [result] = await this.connection.query(`select * from 'cep' where code = '${cep.replace(/\D/g, '')}'`)
     if (!result) throw new Error(`CEP ${cep} not found`);
     return Coordinates.create({ latitude: result.lat, longitude: result.lng });
   }

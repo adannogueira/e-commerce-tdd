@@ -7,8 +7,10 @@ import { Currencies } from '../src/domain/entities/Currencies';
 import { Checkout } from '../src/application/Checkout';
 import { Order } from '../src/domain/entities/Order';
 import { Product } from '../src/domain/entities/Product';
+import { CoordinateData } from '../src/domain/data/CoordinateData';
+import { Coordinates } from '../src/domain/entities/Coordinates';
 
-class Database implements ProductData, CouponData, OrderData {
+class Database implements ProductData, CouponData, OrderData, CoordinateData {
 	getProduct(idProduct: number): Promise<any> {
 		const products: any = {
 			1: { idProduct: 1, description: 'Camera', price: 1000, width: 20, height: 15, length: 10, weight: 1, currency: 'BRL' },
@@ -47,10 +49,14 @@ class Database implements ProductData, CouponData, OrderData {
 	listOrders(params: { cpf?: string | undefined; }): Promise<Order[]> {
 		throw new Error('Method not implemented.');
 	}
+
+	getCoordinate(cep: string): Promise<Coordinates> {
+		return Promise.resolve(Coordinates.create({ latitude: -20.7697279, longitude: -41.6722965 }));
+	}
 }
 
 
-const checkout = new Checkout(new Database(), new Database(), new Database(), new CurrencyGateway());
+const checkout = new Checkout(new Database(), new Database(), new Database(), new CurrencyGateway(), new Database());
 const currencies = new Currencies();
 currencies.addCurrency('BRL', 1);
 currencies.addCurrency('USD', 3);
@@ -70,6 +76,7 @@ describe('Checkout()', () => {
 	test("Deve fazer um pedido com 3 produtos", async function () {
 		const input = {
 			cpf: "987.654.321-00",
+			cep: '29560-000',
 			items: [
 				{ idProduct: 1, quantity: 1 },
 				{ idProduct: 2, quantity: 1 },
@@ -77,12 +84,13 @@ describe('Checkout()', () => {
 			]
 		};
 		const output = await checkout.execute(input);
-		expect(output.total).toBe(6530);
+		expect(output.total).toBe(6522);
 	});
 	
 	test("Não deve fazer pedido com produto que não existe", async function () {
 		const input = {
 			cpf: "987.654.321-00",
+			cep: '29560-000',
 			items: [
 				{ idProduct: 4, quantity: 1 }
 			]
@@ -94,6 +102,7 @@ describe('Checkout()', () => {
 	test("Deve fazer um pedido com 3 produtos com cupom de desconto", async function () {
 		const input = {
 			cpf: "987.654.321-00",
+			cep: '29560-000',
 			items: [
 				{ idProduct: 1, quantity: 1 },
 				{ idProduct: 2, quantity: 1 },
@@ -102,12 +111,13 @@ describe('Checkout()', () => {
 			coupon: "VALE20"
 		};
 		const output = await checkout.execute(input);
-		expect(output.total).toBe(5312);
+		expect(output.total).toBe(5304);
 	});
 	
 	test("Não deve aplicar um cupom de desconto expirado", async function () {
 		const input = {
 			cpf: "987.654.321-00",
+			cep: '29560-000',
 			items: [
 				{ idProduct: 1, quantity: 1 },
 				{ idProduct: 2, quantity: 1 },
@@ -116,12 +126,13 @@ describe('Checkout()', () => {
 			coupon: "VALE10"
 		};
 		const output = await checkout.execute(input);
-		expect(output.total).toBe(6530);
+		expect(output.total).toBe(6522);
 	});
 	
 	test("Não deve fazer um pedido com uma quantidade negativa de produtos", async function () {
 		const input = {
 			cpf: "987.654.321-00",
+			cep: '29560-000',
 			items: [
 				{ idProduct: 1, quantity: -1 }
 			]
@@ -133,6 +144,7 @@ describe('Checkout()', () => {
 	test("Não deve fazer um pedido quando um produto é informado mais de uma vez", async function () {
 		const input = {
 			cpf: "987.654.321-00",
+			cep: '29560-000',
 			items: [
 				{ idProduct: 1, quantity: 1 },
 				{ idProduct: 1, quantity: 2 }
@@ -145,6 +157,7 @@ describe('Checkout()', () => {
 	test("Não deve fazer um pedido quando alguma dimensão do produto é negativa", async function () {
 		const input = {
 			cpf: "987.654.321-00",
+			cep: '29560-000',
 			items: [
 				{ idProduct: 5, quantity: 1 }
 			]
@@ -156,6 +169,7 @@ describe('Checkout()', () => {
 	test("Não deve fazer um pedido quando o weight do produto é negativo", async function () {
 		const input = {
 			cpf: "987.654.321-00",
+			cep: '29560-000',
 			items: [
 				{ idProduct: 6, quantity: 1 }
 			]
@@ -167,6 +181,7 @@ describe('Checkout()', () => {
 	test("Não deve ter valor de frete menor que $10", async function () {
 		const input = {
 			cpf: "987.654.321-00",
+			cep: '29560-000',
 			items: [
 				{ idProduct: 1, quantity: 1 }
 			]
@@ -178,17 +193,19 @@ describe('Checkout()', () => {
 	test("Deve calcular valor de frete com base nos produtos", async function () {
 		const input = {
 			cpf: "987.654.321-00",
+			cep: '29560-000',
 			items: [
 				{ idProduct: 2, quantity: 1 }
 			]
 		};
 		const output = await checkout.execute(input);
-		expect(output.total).toBe(5400);
+		expect(output.total).toBe(5393);
 	});
 
 	test("Deve fazer um pedido com 4 produtos e com moedas diferentes", async function () {
 		const input = {
 			cpf: "987.654.321-00",
+			cep: '29560-000',
 			items: [
 				{ idProduct: 1, quantity: 1 },
 				{ idProduct: 2, quantity: 1 },
@@ -197,7 +214,7 @@ describe('Checkout()', () => {
 			]
 		};
 		const output = await checkout.execute(input);
-		expect(output.total).toBe(6650);
+		expect(output.total).toBe(6641);
 	});
 
 	test("Deve fazer um pedido e salvar os dados deste pedido", async function () {
@@ -206,13 +223,14 @@ describe('Checkout()', () => {
 			.mockResolvedValueOnce(null);
 		const input = {
 			cpf: "987.654.321-00",
+			cep: '29560-000',
 			items: [
 				{ idProduct: 1, quantity: 1 },
 				{ idProduct: 2, quantity: 1 }
 			]
 		};
 		const output = await checkout.execute(input);
-		expect(output.total).toBe(6410);
+		expect(output.total).toBe(6403);
 		expect(databaseSpy).toHaveBeenCalled();
 	});
 });

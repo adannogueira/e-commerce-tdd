@@ -13,11 +13,13 @@ describe('ListOrdersByCpf', () => {
       database,
       database,
       database,
-      new CurrencyGateway()
+      new CurrencyGateway(),
+      database
     );
     const cpf = '987.654.321-00';
     const input1 = {
       cpf,
+      cep: '29560000',
       items: [
         { idProduct: 1, quantity: 1 },
         { idProduct: 2, quantity: 1 },
@@ -26,6 +28,7 @@ describe('ListOrdersByCpf', () => {
     };
     const input2 = {
       cpf,
+      cep: '29560-000',
       items: [{ idProduct: 2, quantity: 2 }]
     };
     await checkout.execute(input1);

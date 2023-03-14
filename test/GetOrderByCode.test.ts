@@ -14,10 +14,12 @@ describe('GetOrderByCode', () => {
       database,
       database,
       database,
-      new CurrencyGateway()
+      new CurrencyGateway(),
+      database
     );
     const input = {
       cpf: '987.654.321-00',
+      cep: '29560-000',
       items: [
         { idProduct: 1, quantity: 1 },
         { idProduct: 2, quantity: 1 },
