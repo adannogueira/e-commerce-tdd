@@ -1,5 +1,5 @@
-import { Coordinates } from '../src/domain/entities/Coordinates';
-import { DistanceCalculator } from '../src/domain/entities/DistanceCalculator';
+import { Coordinates } from '../../src/domain/entities/Coordinates';
+import { DistanceCalculator } from '../../src/domain/entities/DistanceCalculator';
 
 test('Deve calcular a distância entre duas coordenadas', () => {
 	const to = Coordinates.create({ latitude: -27.5945, longitude: -48.5477 });

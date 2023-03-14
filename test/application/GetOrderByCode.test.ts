@@ -1,8 +1,8 @@
-import { CurrencyGateway } from '../src/infra/gateway/CurrencyGateway';
-import { Database } from '../src/infra/data/Database';
-import { Checkout } from '../src/application/Checkout';
-import { GetOrderByCode } from '../src/application/GetOrderByCode';
-import { SqLiteConnection } from '../src/infra/database/SqLiteConnection';
+import { CurrencyGateway } from '../../src/infra/gateway/CurrencyGateway';
+import { Database } from '../../src/infra/data/Database';
+import { Checkout } from '../../src/application/Checkout';
+import { GetOrderByCode } from '../../src/application/GetOrderByCode';
+import { SqLiteConnection } from '../../src/infra/database/SqLiteConnection';
 
 jest.useFakeTimers().setSystemTime(new Date('2023/01/01'));
 
@@ -29,6 +29,6 @@ describe('GetOrderByCode', () => {
     await checkout.execute(input);
     const getOrder = new GetOrderByCode(database);
     const output = await getOrder.execute(code);
-    expect(output.getCpf()).toBe(input.cpf);
+    expect(output.cpf).toBe(input.cpf);
   });
 });

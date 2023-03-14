@@ -1,4 +1,4 @@
-import { Coupon } from '../src/domain/entities/Coupon';
+import { Coupon } from '../../src/domain/entities/Coupon';
 
 jest.useFakeTimers().setSystemTime(new Date('2023/01/01'));
 

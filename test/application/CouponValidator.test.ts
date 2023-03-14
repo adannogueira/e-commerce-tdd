@@ -1,5 +1,5 @@
-import { Coupon } from '../src/domain/entities/Coupon';
-import { CouponValidator } from '../src/application/CouponValidator';
+import { Coupon } from '../../src/domain/entities/Coupon';
+import { CouponValidator } from '../../src/application/CouponValidator';
 
 class CouponData {
   getCoupon(coupon: string): Promise<Coupon> {

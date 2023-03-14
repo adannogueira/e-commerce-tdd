@@ -1,5 +1,5 @@
-import { FreightCalculator } from '../src/domain/entities/FreightCalculator';
-import { Product } from '../src/domain/entities/Product';
+import { FreightCalculator } from '../../src/domain/entities/FreightCalculator';
+import { Product } from '../../src/domain/entities/Product';
 
 const DEFAULT_DISTANCE = 1000;
 

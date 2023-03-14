@@ -1,8 +1,8 @@
-import { CurrencyGateway } from '../src/infra/gateway/CurrencyGateway';
-import { Database } from '../src/infra/data/Database';
-import { Checkout } from '../src/application/Checkout';
-import { SqLiteConnection } from '../src/infra/database/SqLiteConnection';
-import { ListOrdersByCpf } from '../src/application/ListOrdersByCpf';
+import { CurrencyGateway } from '../../src/infra/gateway/CurrencyGateway';
+import { Database } from '../../src/infra/data/Database';
+import { Checkout } from '../../src/application/Checkout';
+import { SqLiteConnection } from '../../src/infra/database/SqLiteConnection';
+import { ListOrdersByCpf } from '../../src/application/ListOrdersByCpf';
 
 jest.useFakeTimers().setSystemTime(new Date('2023/01/01'));
 

@@ -1,4 +1,4 @@
-import { Item } from '../src/domain/entities/Item';
+import { Item } from '../../src/domain/entities/Item';
 
 describe('Item', () => {
   it('Should get items total value', () => {

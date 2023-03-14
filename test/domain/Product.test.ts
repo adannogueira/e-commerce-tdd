@@ -1,4 +1,4 @@
-import { Product } from '../src/domain/entities/Product';
+import { Product } from '../../src/domain/entities/Product';
 
 describe('Product', () => {
   it(`should not build a product with invalid dimensions`, () => {
