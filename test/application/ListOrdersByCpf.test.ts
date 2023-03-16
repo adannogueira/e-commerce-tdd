@@ -35,6 +35,6 @@ describe('ListOrdersByCpf', () => {
     await checkout.execute(input2);
     const listOrders = new ListOrdersByCpf(database);
     const output = await listOrders.execute(cpf);
-    expect(output.map(item => item.getCpf())).toEqual([cpf, cpf]);
+    expect(output.map(item => item.cpf)).toEqual([cpf, cpf]);
   });
 });
