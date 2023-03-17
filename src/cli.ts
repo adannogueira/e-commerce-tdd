@@ -20,7 +20,7 @@ process.stdin.on('data', async function (chunk) {
   }
   if (command.startsWith('checkout')) {
     const database = new Database(new SqLiteConnection());
-	  const checkout = new Checkout(database, database, database, new CurrencyGateway());
+	  const checkout = new Checkout(database, database, database, new CurrencyGateway(), database);
     try {
       const output = await checkout.execute(input);
       console.log(output)
