@@ -1,6 +1,5 @@
 import { Checkout } from '../../application/Checkout';
 import { CliAdapter } from './adapters/CliAdapter';
-import { CliHandler } from './CliHandler';
 
 export class CliController {
 

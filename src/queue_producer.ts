@@ -6,6 +6,7 @@ async function init () {
   await channel.assertQueue('checkout', { durable: true });
   const input = {
     cpf: '00000000191',
+    cep: '29560000',
     items: [
       { idProduct: 1, quantity: 1 },
       { idProduct: 2, quantity: 1 },
