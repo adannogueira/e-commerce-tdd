@@ -59,7 +59,8 @@ import { reactive } from 'vue';
   <div v-for="item in order.items">
     <span class="item-description">{{ getProductById(item.idProduct)?.description }}</span>
     <span class="item-quantity">{{ item.quantity }}</span>
-    <span class="product-delete-button" @click="deleteItem(item.idProduct)">-</span>
+    <span class="item-delete-button" @click="deleteItem(item.idProduct)">-</span>
+    <span class="item-add-button" @click="addItem(item)">+</span>
   </div>
 </template>
 
