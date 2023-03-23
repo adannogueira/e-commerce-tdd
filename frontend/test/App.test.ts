@@ -53,4 +53,19 @@ describe('App', () => {
     expect(wrapper.findAll('.item-quantity').at(1)?.text()).toBe('1')
     expect(wrapper.findAll('.item-quantity').at(2)?.text()).toBe('3')
   })
+
+  it('should remove a product from the cart', async () => {
+    const wrapper = mount(AppVue, {})
+    await wrapper.findAll('.product-add-button').at(0)?.trigger('click')
+    await wrapper.findAll('.product-add-button').at(1)?.trigger('click')
+    await wrapper.findAll('.product-add-button').at(2)?.trigger('click')
+    await wrapper.findAll('.product-add-button').at(2)?.trigger('click')
+    await wrapper.findAll('.product-delete-button').at(2)?.trigger('click')
+
+    expect(wrapper.findAll('.item-quantity').at(0)?.text()).toBe('1')
+    expect(wrapper.findAll('.item-quantity').at(1)?.text()).toBe('1')
+    expect(wrapper.findAll('.item-quantity').at(2)?.text()).toBe('1')
+    expect(wrapper.get('.total').text()).toBe('R$ 6.030,00')
+
+  })
 })

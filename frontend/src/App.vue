@@ -28,7 +28,7 @@ import { reactive } from 'vue';
     return formatMoney(total)
   }
 
-  const formatMoney = function(amount: number) {
+  const formatMoney = function (amount: number) {
     const [integerPart, decimalPart] = amount.toFixed(2).split(".");
     const integerPartWithSeparator = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     return `R$ ${integerPartWithSeparator},${decimalPart}`;
@@ -36,6 +36,15 @@ import { reactive } from 'vue';
 
   const getProductById = function (idProduct: number) {
     return products.find(product => product.idProduct === idProduct)
+  }
+
+  const deleteItem = function (idProduct: number) {
+    const existingItem = order.items.find((item: any) => item.idProduct === idProduct)
+    if (existingItem) {
+      existingItem.quantity--
+    } else {
+      order.items = order.items.filter((item: any) => item.idProduct !== idProduct)
+    }
   }
 </script>
 
@@ -50,6 +59,7 @@ import { reactive } from 'vue';
   <div v-for="item in order.items">
     <span class="item-description">{{ getProductById(item.idProduct)?.description }}</span>
     <span class="item-quantity">{{ item.quantity }}</span>
+    <span class="product-delete-button" @click="deleteItem(item.idProduct)">-</span>
   </div>
 </template>
 
