@@ -40,4 +40,17 @@ describe('App', () => {
     expect(wrapper.findAll('.item-description').at(1)?.text()).toBe('B')
     expect(wrapper.findAll('.item-description').at(2)?.text()).toBe('C')
   })
+
+  it('should show correct quantity for products in cart', async () => {
+    const wrapper = mount(AppVue, {})
+    await wrapper.findAll('.product-add-button').at(0)?.trigger('click')
+    await wrapper.findAll('.product-add-button').at(1)?.trigger('click')
+    await wrapper.findAll('.product-add-button').at(2)?.trigger('click')
+    await wrapper.findAll('.product-add-button').at(2)?.trigger('click')
+    await wrapper.findAll('.product-add-button').at(2)?.trigger('click')
+
+    expect(wrapper.findAll('.item-quantity').at(0)?.text()).toBe('1')
+    expect(wrapper.findAll('.item-quantity').at(1)?.text()).toBe('1')
+    expect(wrapper.findAll('.item-quantity').at(2)?.text()).toBe('3')
+  })
 })

@@ -13,11 +13,18 @@ import { reactive } from 'vue';
   })
 
   const addItem = function (product: any) {
-    order.items.push({ idProduct: product.idProduct, price: product.price, quantity: 1 })
+    const existingItem = order.items.find((item: any) => item.idProduct === product.idProduct)
+    if (existingItem) {
+      existingItem.quantity++
+    } else {
+      order.items.push({ idProduct: product.idProduct, price: product.price, quantity: 1 })
+    }
   }
 
   const getTotal = function () {
-    const total = order.items.reduce((total: number, item: any) => total + item.price, 0)
+    const total = order.items.reduce(
+      (total: number, item: any) => total + item.price * item.quantity, 0
+    )
     return formatMoney(total)
   }
 
@@ -42,6 +49,7 @@ import { reactive } from 'vue';
   <div class="total">{{ getTotal() }}</div>
   <div v-for="item in order.items">
     <span class="item-description">{{ getProductById(item.idProduct)?.description }}</span>
+    <span class="item-quantity">{{ item.quantity }}</span>
   </div>
 </template>
 
