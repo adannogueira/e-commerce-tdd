@@ -77,4 +77,13 @@ describe('App', () => {
     expect(wrapper.findAll('.item-quantity').at(0)?.text()).toBe('3')
     expect(wrapper.get('.total').text()).toBe('R$ 3.000,00')
   })
+
+  it('should not decrement a product quantity to a negative number', async () => {
+    const wrapper = mount(AppVue, {})
+    await wrapper.findAll('.product-add-button').at(2)?.trigger('click')
+    await wrapper.findAll('.item-delete-button').at(2)?.trigger('click')
+    await wrapper.findAll('.item-delete-button').at(2)?.trigger('click')
+
+    expect(wrapper.findAll('.item-quantity').at(2)).toBeFalsy()
+  })
 })
