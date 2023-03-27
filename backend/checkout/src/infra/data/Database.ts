@@ -82,4 +82,21 @@ export class Database implements ProductData, CouponData, OrderData, CoordinateD
     if (!result) throw new Error(`CEP ${cep} not found`);
     return Coordinates.create({ latitude: result.lat, longitude: result.lng });
   }
+
+  public async listProducts(): Promise<Product[]> {
+    const result = await this.connection.query(`select * from product`);
+    return result.map((product: any) => {
+      return new Product({
+        idProduct: product.id_product,
+        description: product.description,
+        price: parseFloat(product.price),
+        width: parseFloat(product.width),
+        height:parseFloat(product.height),
+        length: parseFloat(product.length),
+        weight: parseFloat(product.weight),
+        currency: product.currency
+      });
+    })
+  }
+
 }
