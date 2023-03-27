@@ -86,4 +86,13 @@ describe('App', () => {
 
     expect(wrapper.findAll('.item-quantity').at(2)).toBeFalsy()
   })
+
+  it('should confirm an order with an item', async () => {
+    const wrapper = mount(AppVue, {})
+    await wrapper.findAll('.product-add-button').at(0)?.trigger('click')
+    await wrapper.get('.confirm').trigger('click')
+
+    expect(wrapper.get('.message').text()).toBe('Success')
+    expect(wrapper.get('.order-code').text()).toBe('202300000001')
+  })
 })

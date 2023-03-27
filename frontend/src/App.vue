@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
   const products = reactive([
     { idProduct: 1, description: 'A', price: 1000 },
@@ -7,10 +7,12 @@ import { reactive } from 'vue';
     { idProduct: 3, description: 'C', price: 30 },
   ])
 
-  const order = reactive({
+  const order: any = reactive({
     total: 0,
     items: [] as any
   })
+
+  const message = ref('')
 
   const addItem = function (product: any) {
     const existingItem = order.items.find((item: any) => item.idProduct === product.idProduct)
@@ -46,6 +48,11 @@ import { reactive } from 'vue';
       order.items = order.items.filter((item: any) => item.idProduct !== idProduct)
     }
   }
+
+  const confirm = function (order: any) {
+    message.value = 'Success'
+    order.code = '202300000001'
+  }
 </script>
 
 <template>
@@ -62,6 +69,9 @@ import { reactive } from 'vue';
     <span class="item-delete-button" @click="deleteItem(item.idProduct)">-</span>
     <span class="item-add-button" @click="addItem(item)">+</span>
   </div>
+  <button class="confirm" @click="confirm(order)">confirm</button>
+  <div class="message">{{ message }}</div>
+  <div class="order-code">{{ order.code }}</div>
 </template>
 
 <style scoped>
