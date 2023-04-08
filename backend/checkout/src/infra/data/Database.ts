@@ -85,18 +85,23 @@ export class Database implements ProductData, CouponData, OrderData, CoordinateD
 
   public async listProducts(): Promise<Product[]> {
     const result = await this.connection.query(`select * from product`);
-    return result.map((product: any) => {
-      return new Product({
-        idProduct: product.id_product,
-        description: product.description,
-        price: parseFloat(product.price),
-        width: parseFloat(product.width),
-        height:parseFloat(product.height),
-        length: parseFloat(product.length),
-        weight: parseFloat(product.weight),
-        currency: product.currency
-      });
+    const products = result.map((product: any) => {
+      try {
+        return new Product({
+          idProduct: product.id_product,
+          description: product.description,
+          price: parseFloat(product.price),
+          width: parseFloat(product.width),
+          height:parseFloat(product.height),
+          length: parseFloat(product.length),
+          weight: parseFloat(product.weight),
+          currency: product.currency
+        });
+      } catch (e) {
+        return
+      }
     })
+    return products.filter(Boolean)
   }
 
 }
