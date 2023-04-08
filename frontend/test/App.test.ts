@@ -1,6 +1,9 @@
 import { mount } from '@vue/test-utils'
 import AppVue from '../src/App.vue'
 
+function sleep (time: number) {
+  return new Promise((resolve) => setTimeout(() => resolve(true), time))
+}
 describe('App', () => {
   it('should show the title in frontend', () => {
     const wrapper = mount(AppVue, {})
@@ -8,9 +11,9 @@ describe('App', () => {
     expect(wrapper.get('.title').text()).toBe('Checkout')
   })
 
-  it('should list products', () => {
+  it('should list products', async () => {
     const wrapper = mount(AppVue, {})
-
+    await sleep(100)
     expect(wrapper.findAll('.product-description').at(0)?.text()).toBe('A')
     expect(wrapper.findAll('.product-price').at(0)?.text()).toBe('R$ 1.000,00')
     expect(wrapper.findAll('.product-description').at(1)?.text()).toBe('B')
@@ -91,8 +94,9 @@ describe('App', () => {
     const wrapper = mount(AppVue, {})
     await wrapper.findAll('.product-add-button').at(0)?.trigger('click')
     await wrapper.get('.confirm').trigger('click')
-
+    await sleep(100)
     expect(wrapper.get('.message').text()).toBe('Success')
     expect(wrapper.get('.order-code').text()).toBe('202300000001')
+    expect(wrapper.get('.order-total').text()).toBe('1010')
   })
 })

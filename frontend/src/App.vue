@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
+import axios from 'axios';
+import { Order } from './domain/Order'
 
   const products = reactive([
     { idProduct: 1, description: 'A', price: 1000 },
@@ -7,71 +9,45 @@ import { reactive, ref } from 'vue';
     { idProduct: 3, description: 'C', price: 30 },
   ])
 
-  const order: any = reactive({
-    total: 0,
-    items: [] as any
-  })
+  const order: any = reactive(new Order('987.654.321-00', '29560000'))
 
   const message = ref('')
-
-  const addItem = function (product: any) {
-    const existingItem = order.items.find((item: any) => item.idProduct === product.idProduct)
-    if (existingItem) {
-      existingItem.quantity++
-    } else {
-      order.items.push({ idProduct: product.idProduct, price: product.price, quantity: 1 })
-    }
-  }
-
-  const getTotal = function () {
-    const total = order.items.reduce(
-      (total: number, item: any) => total + item.price * item.quantity, 0
-    )
-    return formatMoney(total)
-  }
-
-  const formatMoney = function (amount: number) {
-    const [integerPart, decimalPart] = amount.toFixed(2).split(".");
-    const integerPartWithSeparator = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    return `R$ ${integerPartWithSeparator},${decimalPart}`;
-  }
 
   const getProductById = function (idProduct: number) {
     return products.find(product => product.idProduct === idProduct)
   }
 
-  const deleteItem = function (idProduct: number) {
-    const existingItem = order.items.find((item: any) => item.idProduct === idProduct)
-    if (existingItem) {
-      existingItem.quantity--
-    } else {
-      order.items = order.items.filter((item: any) => item.idProduct !== idProduct)
-    }
+  const confirm = async function (order: any) {
+    const { data } = await axios.post('http://localhost:3000/checkout', order)
+    message.value = 'Success'
+    order.code = data.code
+    order.total = data.total
   }
 
-  const confirm = function (order: any) {
-    message.value = 'Success'
-    order.code = '202300000001'
-  }
+  onMounted(async () => {
+    const { data } = await axios.get('http://localhost:3000/products')
+    products.push(...data)
+  })
 </script>
 
 <template>
   <div class="title">Checkout</div>
   <div v-for="product in products">
     <span class="product-description">{{ product.description }}</span>
-    <span class="product-price">{{ formatMoney(product.price) }}</span>
-    <button class="product-add-button" @click="addItem(product)">add</button>
+    <span class="product-price">{{ order.formatMoney(product.price) }}</span>
+    <button class="product-add-button" @click="order.addItem(product)">add</button>
   </div>
-  <div class="total">{{ getTotal() }}</div>
+  <div class="total">{{ order.getTotal() }}</div>
   <div v-for="item in order.items">
     <span class="item-description">{{ getProductById(item.idProduct)?.description }}</span>
     <span class="item-quantity">{{ item.quantity }}</span>
-    <span class="item-delete-button" @click="deleteItem(item.idProduct)">-</span>
-    <span class="item-add-button" @click="addItem(item)">+</span>
+    <span class="item-delete-button" @click="order.deleteItem(item.idProduct)">-</span>
+    <span class="item-add-button" @click="order.addItem(item)">+</span>
   </div>
   <button class="confirm" @click="confirm(order)">confirm</button>
   <div class="message">{{ message }}</div>
   <div class="order-code">{{ order.code }}</div>
+  <div class="order-total">{{ order.total }}</div>
 </template>
 
 <style scoped>
