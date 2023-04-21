@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue';
-import axios from 'axios';
-import { Order } from './domain/Order'
+  import { inject, onMounted, reactive, ref } from 'vue';
+  import { Order } from './domain/Order'
+  import { CheckoutGateway } from './infra/gateway/CheckoutGateway'
 
   const products = reactive([
     { idProduct: 1, description: 'A', price: 1000 },
@@ -17,16 +17,17 @@ import { Order } from './domain/Order'
     return products.find(product => product.idProduct === idProduct)
   }
 
+  const checkoutGateway = inject('checkoutGateway') as CheckoutGateway
   const confirm = async function (order: any) {
-    const { data } = await axios.post('http://localhost:3000/checkout', order)
+    const data = await checkoutGateway.checkout(order)
     message.value = 'Success'
     order.code = data.code
     order.total = data.total
   }
 
   onMounted(async () => {
-    const { data } = await axios.get('http://localhost:3000/products')
-    products.push(...data)
+    const productsData = await checkoutGateway.getProducts()
+    products.push(...productsData)
   })
 </script>
 

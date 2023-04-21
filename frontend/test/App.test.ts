@@ -1,18 +1,28 @@
-import { mount } from '@vue/test-utils'
+import { VueWrapper, mount } from '@vue/test-utils'
 import AppVue from '../src/App.vue'
+import { CheckoutGatewayHttp } from '../src/infra/gateway/CheckoutGatewayHttp'
+import { AxiosAdapter } from '../src/infra/http/AxiosAdapter';
 
 function sleep (time: number) {
   return new Promise((resolve) => setTimeout(() => resolve(true), time))
 }
-describe('App', () => {
-  it('should show the title in frontend', () => {
-    const wrapper = mount(AppVue, {})
 
+let wrapper: VueWrapper;
+
+describe('App', () => {
+  beforeEach(() => {
+    const httpClient = new AxiosAdapter();
+    const baseUrl = 'http://localhost:3000';
+    const checkoutGateway = new CheckoutGatewayHttp(httpClient, baseUrl)
+    wrapper = mount(AppVue, {
+      global: { provide: { checkoutGateway }}
+    })
+  })
+  it('should show the title in frontend', () => {
     expect(wrapper.get('.title').text()).toBe('Checkout')
   })
 
   it('should list products', async () => {
-    const wrapper = mount(AppVue, {})
     await sleep(100)
     expect(wrapper.findAll('.product-description').at(0)?.text()).toBe('A')
     expect(wrapper.findAll('.product-price').at(0)?.text()).toBe('R$ 1.000,00')
@@ -23,7 +33,6 @@ describe('App', () => {
   })
 
   it('should update total value when a product is added to cart', async () => {
-    const wrapper = mount(AppVue, {})
     await wrapper.findAll('.product-add-button').at(0)?.trigger('click')
     await wrapper.findAll('.product-add-button').at(1)?.trigger('click')
     await wrapper.findAll('.product-add-button').at(2)?.trigger('click')
@@ -34,7 +43,6 @@ describe('App', () => {
   })
   
   it('should show description for products in cart', async () => {
-    const wrapper = mount(AppVue, {})
     await wrapper.findAll('.product-add-button').at(0)?.trigger('click')
     await wrapper.findAll('.product-add-button').at(1)?.trigger('click')
     await wrapper.findAll('.product-add-button').at(2)?.trigger('click')
@@ -45,7 +53,6 @@ describe('App', () => {
   })
 
   it('should show correct quantity for products in cart', async () => {
-    const wrapper = mount(AppVue, {})
     await wrapper.findAll('.product-add-button').at(0)?.trigger('click')
     await wrapper.findAll('.product-add-button').at(1)?.trigger('click')
     await wrapper.findAll('.product-add-button').at(2)?.trigger('click')
@@ -58,7 +65,6 @@ describe('App', () => {
   })
 
   it('should decrement a product quantity in the cart', async () => {
-    const wrapper = mount(AppVue, {})
     await wrapper.findAll('.product-add-button').at(0)?.trigger('click')
     await wrapper.findAll('.product-add-button').at(1)?.trigger('click')
     await wrapper.findAll('.product-add-button').at(2)?.trigger('click')
@@ -72,7 +78,6 @@ describe('App', () => {
   })
 
   it('should increment a product quantity in the cart', async () => {
-    const wrapper = mount(AppVue, {})
     await wrapper.findAll('.product-add-button').at(0)?.trigger('click')
     await wrapper.findAll('.item-add-button').at(0)?.trigger('click')
     await wrapper.findAll('.item-add-button').at(0)?.trigger('click')
@@ -82,7 +87,6 @@ describe('App', () => {
   })
 
   it('should not decrement a product quantity to a negative number', async () => {
-    const wrapper = mount(AppVue, {})
     await wrapper.findAll('.product-add-button').at(2)?.trigger('click')
     await wrapper.findAll('.item-delete-button').at(2)?.trigger('click')
     await wrapper.findAll('.item-delete-button').at(2)?.trigger('click')
@@ -91,7 +95,6 @@ describe('App', () => {
   })
 
   it('should confirm an order with an item', async () => {
-    const wrapper = mount(AppVue, {})
     await wrapper.findAll('.product-add-button').at(0)?.trigger('click')
     await wrapper.get('.confirm').trigger('click')
     await sleep(100)
