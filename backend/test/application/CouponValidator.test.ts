@@ -1,4 +1,4 @@
-import { Coupon } from '../../src/domain/entities/Coupon';
+import { Coupon } from '../../checkout/src/domain/entities/Coupon';
 import { CouponValidator } from '../../src/application/CouponValidator';
 
 class CouponData {

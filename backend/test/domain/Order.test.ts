@@ -1,6 +1,6 @@
-import { Coupon } from '../../src/domain/entities/Coupon';
-import { Order } from '../../src/domain/entities/Order';
-import { Product } from '../../src/domain/entities/Product';
+import { Coupon } from '../../checkout/src/domain/entities/Coupon';
+import { Order } from '../../checkout/src/domain/entities/Order';
+import { Product } from '../../checkout/src/domain/entities/Product';
 
 const SEQUENCE = 1;
 const DISTANCE = 1000;

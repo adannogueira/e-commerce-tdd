@@ -1,5 +1,5 @@
-import { Order } from '../src/domain/Order'
-import { Product } from '../src/domain/Product'
+import { Order } from '../checkout/src/domain/Order'
+import { Product } from '../checkout/src/domain/Product'
 
 it('should create an empty order', () => {
   const order = new Order('123.456.789-10', '29560000')

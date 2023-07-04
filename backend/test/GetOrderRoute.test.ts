@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Order } from '../src/domain/entities/Order';
+import { Order } from '../checkout/src/domain/entities/Order';
 import { Database } from '../src/infra/data/Database';
 import { SqLiteConnection } from '../src/infra/database/SqLiteConnection';
 

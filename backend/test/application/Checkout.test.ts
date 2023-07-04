@@ -1,14 +1,14 @@
-import { CouponData } from '../../src/domain/data/CouponData';
+import { CouponData } from '../../checkout/src/domain/data/CouponData';
 import { CurrencyGateway } from '../../src/infra/gateway/CurrencyGateway';
-import { OrderData } from '../../src/domain/data/OrderData';
-import { ProductData } from '../../src/domain/data/ProductData';
-import { Coupon } from '../../src/domain/entities/Coupon';
-import { Currencies } from '../../src/domain/entities/Currencies';
+import { OrderData } from '../../checkout/src/domain/data/OrderData';
+import { ProductData } from '../../checkout/src/domain/data/ProductData';
+import { Coupon } from '../../checkout/src/domain/entities/Coupon';
+import { Currencies } from '../../checkout/src/domain/entities/Currencies';
 import { Checkout } from '../../src/application/Checkout';
-import { Order } from '../../src/domain/entities/Order';
-import { Product } from '../../src/domain/entities/Product';
-import { CoordinateData } from '../../src/domain/data/CoordinateData';
-import { Coordinates } from '../../src/domain/entities/Coordinates';
+import { Order } from '../../checkout/src/domain/entities/Order';
+import { Product } from '../../checkout/src/domain/entities/Product';
+import { CoordinateData } from '../../checkout/src/domain/data/CoordinateData';
+import { Coordinates } from '../../checkout/src/domain/entities/Coordinates';
 
 class Database implements ProductData, CouponData, OrderData, CoordinateData {
 	getProduct(idProduct: number): Promise<any> {

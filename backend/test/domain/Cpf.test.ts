@@ -1,4 +1,4 @@
-import { Cpf } from '../../src/domain/entities/Cpf';
+import { Cpf } from '../../checkout/src/domain/entities/Cpf';
 
 const validCpfs = [
 	"987.654.321-00",
