@@ -1,12 +1,12 @@
-import { Database } from '../../src/infra/data/Database';
-import { SimulateFreight } from '../../src/application/SimulateFreight'; 
-import { SqLiteConnection } from '../../src/infra/database/SqLiteConnection';
+import { Database } from '../../checkout/src/infra/data/Database';
+import { CalculateFreight } from '../../checkout/src/application/CalculateFreight'; 
+import { SqLiteConnection } from '../../checkout/src/infra/database/SqLiteConnection';
 
 const database = new Database(new SqLiteConnection());
-const simulateFreight = new SimulateFreight(database, database);
+const simulateFreight = new CalculateFreight(database, database);
 const DEFAULT_CEP = '29560-000';
 
-describe('SimulateFreight', () => {
+describe('CalculateFreight', () => {
 	
 	test("Não deve ter valor de frete menor que $10 por produto", async function () {
 		const input = [

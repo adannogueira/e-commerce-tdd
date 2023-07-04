@@ -3,7 +3,7 @@ import { ProductData } from '../domain/data/ProductData';
 import { DistanceCalculator } from '../domain/entities/DistanceCalculator';
 import { FreightCalculator } from '../domain/entities/FreightCalculator';
 
-export class SimulateFreight {
+export class CalculateFreight {
   constructor(
     private readonly productData: ProductData,
     private readonly coordinateData: CoordinateData
