@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Order } from '../checkout/src/domain/entities/Order';
-import { Database } from '../src/infra/data/Database';
-import { SqLiteConnection } from '../src/infra/database/SqLiteConnection';
+import { Database } from '../checkout/src/infra/data/Database';
+import { SqLiteConnection } from '../checkout/src/infra/database/SqLiteConnection';
 
 axios.defaults.validateStatus = function () {
 	return true;

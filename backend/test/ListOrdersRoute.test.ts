@@ -1,8 +1,4 @@
 import axios from 'axios';
-import { Checkout } from '../src/application/Checkout';
-import { Database } from '../src/infra/data/Database';
-import { SqLiteConnection } from '../src/infra/database/SqLiteConnection';
-import { CurrencyGateway } from '../src/infra/gateway/CurrencyGateway';
 
 axios.defaults.validateStatus = function () {
 	return true;

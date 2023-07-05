@@ -3,7 +3,6 @@ import { Cpf } from './Cpf';
 import { Item } from './Item';
 import { OrderCode } from './OrderCode';
 import { Product } from './Product';
-import { FreightCalculator } from './FreightCalculator';
 
 export class Order {
   readonly cpf: Cpf;
@@ -21,18 +20,20 @@ export class Order {
   public addItem(
     product: Product,
     quantity: number,
-    distance: number,
     currencyCode: string = 'BRL',
     currencyValue: number = 1): void {
     if (this.items.find(item => item.idProduct === product.idProduct)) {
       throw new Error('Invalid cart');
     }
     this.items.push(new Item(product.idProduct, product.price, quantity, currencyCode, currencyValue));
-    this.freight += FreightCalculator.calculate(product, distance);
   }
 
   public addCoupon(coupon: Coupon): void {
     if (!coupon.isExpired()) this.coupon = coupon;
+  }
+
+  public addFreight(value: number): void {
+    this.freight += value;
   }
 
   public getCpf(): string {

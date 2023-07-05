@@ -2,6 +2,7 @@ import { Checkout } from './application/Checkout';
 import { GetOrderByCode } from './application/GetOrderByCode';
 import { ListOrdersByCpf } from './application/ListOrdersByCpf';
 import { ListProducts } from './application/ListProducts';
+import { FreightCalculator } from './domain/entities/FreightCalculator';
 import { CheckoutController } from './infra/controller/CheckoutController';
 import { GetOrderController } from './infra/controller/GetOrderController';
 import { GetProductsController } from './infra/controller/GetProductsController';
@@ -12,7 +13,7 @@ import { CurrencyGateway } from './infra/gateway/CurrencyGateway';
 import { ExpressHttpServer } from './infra/http/ExpressHttpServer';
 
 const database = new Database(new SqLiteConnection());
-const checkout = new Checkout(database, database, database, new CurrencyGateway(), database);
+const checkout = new Checkout(database, database, database, new CurrencyGateway(), database, FreightCalculator);
 const getOrder = new GetOrderByCode(database);
 const listProducts = new ListProducts(database);
 const listOrders = new ListOrdersByCpf(database);

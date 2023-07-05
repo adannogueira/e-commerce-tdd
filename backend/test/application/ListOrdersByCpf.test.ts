@@ -1,8 +1,9 @@
-import { CurrencyGateway } from '../../src/infra/gateway/CurrencyGateway';
-import { Database } from '../../src/infra/data/Database';
-import { Checkout } from '../../src/application/Checkout';
-import { SqLiteConnection } from '../../src/infra/database/SqLiteConnection';
-import { ListOrdersByCpf } from '../../src/application/ListOrdersByCpf';
+import { CurrencyGateway } from '../../checkout/src/infra/gateway/CurrencyGateway';
+import { Database } from '../../checkout/src/infra/data/Database';
+import { Checkout } from '../../checkout/src/application/Checkout';
+import { SqLiteConnection } from '../../checkout/src/infra/database/SqLiteConnection';
+import { ListOrdersByCpf } from '../../checkout/src/application/ListOrdersByCpf';
+import { FreightCalculator } from '../../checkout/src/domain/entities/FreightCalculator';
 
 jest.useFakeTimers().setSystemTime(new Date('2023/01/01'));
 
@@ -14,7 +15,8 @@ describe('ListOrdersByCpf', () => {
       database,
       database,
       new CurrencyGateway(),
-      database
+      database,
+      FreightCalculator
     );
     const cpf = '987.654.321-00';
     const input1 = {

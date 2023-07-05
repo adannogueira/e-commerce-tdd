@@ -15,7 +15,7 @@ describe('FreightCalculator', () => {
 			weight: 1,
 			currency: 'BRL'
 		});
-		const freight = FreightCalculator.calculate(input, DEFAULT_DISTANCE);
+		const freight = FreightCalculator.calculate(input, DEFAULT_DISTANCE, 1);
 		expect(freight).toBe(10);
 	});
 	
@@ -30,8 +30,25 @@ describe('FreightCalculator', () => {
 			weight: 40,
 			currency: 'BRL'
 		});
-		const freight = FreightCalculator.calculate(input, DEFAULT_DISTANCE);
+		const freight = FreightCalculator.calculate(input, DEFAULT_DISTANCE, 1);
 		expect(freight).toBe(400);
+	});
+
+	test.each([
+		[1, 400], [2, 800], [3, 1200]
+	])("Deve calcular valor de frete com base na quantidade", function (quantity, expectedFreight) {
+		const input = new Product({
+			idProduct: 2,
+			description: 'Geladeira',
+			price: 5000,
+			width: 200,
+			height: 10,
+			length: 50,
+			weight: 40,
+			currency: 'BRL'
+		});
+		const freight = FreightCalculator.calculate(input, DEFAULT_DISTANCE, quantity);
+		expect(freight).toBe(expectedFreight);
 	});
 
 	test.each([
@@ -48,7 +65,7 @@ describe('FreightCalculator', () => {
 			weight: 40,
 			currency: 'BRL'
 		});
-		const freight = FreightCalculator.calculate(items, distance);
+		const freight = FreightCalculator.calculate(items, distance, 1);
 		expect(freight).toBe(expectedFreight);
 	});
 });

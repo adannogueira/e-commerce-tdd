@@ -1,15 +1,16 @@
-import { Checkout } from '../src/application/Checkout';
-import { Database } from '../src/infra/data/Database';
-import { SqLiteConnection } from '../src/infra/database/SqLiteConnection';
-import { CurrencyGateway } from '../src/infra/gateway/CurrencyGateway';
-import { QueueController } from '../src/infra/queue/QueueController';
-import { QueueMemory } from '../src/infra/queue/QueueMemory';
+import { Checkout } from '../checkout/src/application/Checkout';
+import { FreightCalculator } from '../checkout/src/domain/entities/FreightCalculator';
+import { Database } from '../checkout/src/infra/data/Database';
+import { SqLiteConnection } from '../checkout/src/infra/database/SqLiteConnection';
+import { CurrencyGateway } from '../checkout/src/infra/gateway/CurrencyGateway';
+import { QueueController } from '../checkout/src/infra/queue/QueueController';
+import { QueueMemory } from '../checkout/src/infra/queue/QueueMemory';
 
 describe('Queue', () => {
   it('should test the Queue', async () => {
     // Arrange
     const database = new Database(new SqLiteConnection());
-    const checkout = new Checkout(database, database, database, new CurrencyGateway(), database);
+    const checkout = new Checkout(database, database, database, new CurrencyGateway(), database, FreightCalculator);
     const checkoutSpy = jest.spyOn(checkout, 'execute');
     const queue = new QueueMemory();
     new QueueController(queue, checkout);

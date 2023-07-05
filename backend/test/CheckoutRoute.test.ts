@@ -27,7 +27,7 @@ test("Deve fazer um pedido com 3 produtos", async function () {
 	};
 	const response = await axios.post("http://localhost:3000/checkout", input)
 	const output = response.data;
-	expect(output.total).toBe(6525);
+	expect(output.total).toBe(6584);
 });
 
 test("Não deve fazer pedido com produto que não existe", async function () {
@@ -55,7 +55,7 @@ test("Deve fazer um pedido com 3 produtos com cupom de desconto", async function
 	};
 	const response = await axios.post("http://localhost:3000/checkout", input)
 	const output = response.data;
-	expect(output.total).toBe(5307);
+	expect(output.total).toBe(5366);
 });
 
 test("Não deve aplicar um cupom de desconto expirado", async function () {
@@ -70,7 +70,7 @@ test("Não deve aplicar um cupom de desconto expirado", async function () {
 	};
 	const response = await axios.post("http://localhost:3000/checkout", input)
 	const output = response.data;
-	expect(output.total).toBe(6525);
+	expect(output.total).toBe(6584);
 });
 
 test("Não deve fazer um pedido com uma quantidade negativa de produtos", async function () {

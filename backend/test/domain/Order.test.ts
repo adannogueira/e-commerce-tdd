@@ -1,9 +1,7 @@
-import { Coupon } from '../../checkout/src/domain/entities/Coupon';
 import { Order } from '../../checkout/src/domain/entities/Order';
 import { Product } from '../../checkout/src/domain/entities/Product';
 
 const SEQUENCE = 1;
-const DISTANCE = 1000;
 
 describe('Order', () => {
   it('Should create an empty order with a valid CPF', () => {
@@ -54,9 +52,10 @@ describe('Order', () => {
     const order = makeSut();
 
     // Act
-    order.addItem(product1, 1, DISTANCE);
-    order.addItem(product2, 1, DISTANCE);
-    order.addItem(product3, 3, DISTANCE);
+    order.addItem(product1, 1);
+    order.addItem(product2, 1);
+    order.addItem(product3, 3);
+    order.addFreight(260)
 
     // Assert
     expect(order.getTotal()).toBe(6350);
@@ -76,7 +75,7 @@ describe('Order', () => {
     const order = makeSut();
 
     // Act & Assert
-    expect(() => order.addItem(product1, -1, DISTANCE)).toThrow('Invalid product quantity');
+    expect(() => order.addItem(product1, -1)).toThrow('Invalid product quantity');
   });
 
   it('Should not create an order with duplicated item', () => {
@@ -100,50 +99,10 @@ describe('Order', () => {
       weight: 3
     });
     const order = makeSut();
-    order.addItem(product1, 1, DISTANCE)
+    order.addItem(product1, 1)
     
     // Act & Assert
-    expect(() => order.addItem(product2, 1, DISTANCE)).toThrow('Invalid cart');
-  });
-
-  it('Should create an order with three items', () => {
-    // Arrange
-    const product1 = new Product({ 
-      idProduct: 1,
-      description: 'A',
-      price: 1000,
-      width: 100,
-      height: 30,
-      length: 10,
-      weight: 3
-    });
-    const product2 = new Product({ 
-      idProduct: 2,
-      description: 'B',
-      price: 5000,
-      width: 50,
-      height: 50,
-      length: 50, 
-      weight:22
-    });
-    const product3 = new Product({ 
-      idProduct: 3,
-      description: 'C',
-      price: 30,
-      width: 10,
-      height: 10,
-      length: 10,
-      weight: 1
-    });
-    const order = makeSut();
-
-    // Act
-    order.addItem(product1, 1, DISTANCE);
-    order.addItem(product2, 1, DISTANCE);
-    order.addItem(product3, 3, DISTANCE);
-
-    // Assert
-    expect(order.getTotal()).toBe(6350);
+    expect(() => order.addItem(product2, 1)).toThrow('Invalid cart');
   });
 
   it('Should create an order with order code', () => {
@@ -163,7 +122,7 @@ describe('Order', () => {
     const order = new Order(validCpf, sequence);
 
     // Act
-    order.addItem(product1, 1, DISTANCE);
+    order.addItem(product1, 1);
 
     // Assert
     expect(order.getCode()).toBe('202300000001');

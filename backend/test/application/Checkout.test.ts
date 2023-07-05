@@ -1,16 +1,21 @@
 import { CouponData } from '../../checkout/src/domain/data/CouponData';
-import { CurrencyGateway } from '../../src/infra/gateway/CurrencyGateway';
+import { CurrencyGateway } from '../../checkout/src/infra/gateway/CurrencyGateway';
 import { OrderData } from '../../checkout/src/domain/data/OrderData';
 import { ProductData } from '../../checkout/src/domain/data/ProductData';
 import { Coupon } from '../../checkout/src/domain/entities/Coupon';
 import { Currencies } from '../../checkout/src/domain/entities/Currencies';
-import { Checkout } from '../../src/application/Checkout';
+import { Checkout } from '../../checkout/src/application/Checkout';
 import { Order } from '../../checkout/src/domain/entities/Order';
 import { Product } from '../../checkout/src/domain/entities/Product';
 import { CoordinateData } from '../../checkout/src/domain/data/CoordinateData';
 import { Coordinates } from '../../checkout/src/domain/entities/Coordinates';
+import { FreightCalculator } from '../../checkout/src/domain/entities/FreightCalculator';
 
 class Database implements ProductData, CouponData, OrderData, CoordinateData {
+	listProducts(): Promise<Product[]> {
+		throw new Error('Method not implemented.');
+	}
+
 	getProduct(idProduct: number): Promise<any> {
 		const products: any = {
 			1: { idProduct: 1, description: 'Camera', price: 1000, width: 20, height: 15, length: 10, weight: 1, currency: 'BRL' },
@@ -56,7 +61,7 @@ class Database implements ProductData, CouponData, OrderData, CoordinateData {
 }
 
 
-const checkout = new Checkout(new Database(), new Database(), new Database(), new CurrencyGateway(), new Database());
+const checkout = new Checkout(new Database(), new Database(), new Database(), new CurrencyGateway(), new Database(), FreightCalculator);
 const currencies = new Currencies();
 currencies.addCurrency('BRL', 1);
 currencies.addCurrency('USD', 3);
@@ -84,7 +89,7 @@ describe('Checkout()', () => {
 			]
 		};
 		const output = await checkout.execute(input);
-		expect(output.total).toBe(6522);
+		expect(output.total).toBe(6581);
 	});
 	
 	test("Não deve fazer pedido com produto que não existe", async function () {
@@ -111,7 +116,7 @@ describe('Checkout()', () => {
 			coupon: "VALE20"
 		};
 		const output = await checkout.execute(input);
-		expect(output.total).toBe(5304);
+		expect(output.total).toBe(5363);
 	});
 	
 	test("Não deve aplicar um cupom de desconto expirado", async function () {
@@ -126,7 +131,7 @@ describe('Checkout()', () => {
 			coupon: "VALE10"
 		};
 		const output = await checkout.execute(input);
-		expect(output.total).toBe(6522);
+		expect(output.total).toBe(6581);
 	});
 	
 	test("Não deve fazer um pedido com uma quantidade negativa de produtos", async function () {
@@ -214,7 +219,7 @@ describe('Checkout()', () => {
 			]
 		};
 		const output = await checkout.execute(input);
-		expect(output.total).toBe(6641);
+		expect(output.total).toBe(6700);
 	});
 
 	test("Deve fazer um pedido e salvar os dados deste pedido", async function () {

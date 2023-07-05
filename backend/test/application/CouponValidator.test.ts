@@ -1,5 +1,5 @@
 import { Coupon } from '../../checkout/src/domain/entities/Coupon';
-import { CouponValidator } from '../../src/application/CouponValidator';
+import { CouponValidator } from '../../checkout/src/application/CouponValidator';
 
 class CouponData {
   getCoupon(coupon: string): Promise<Coupon> {

@@ -1,16 +1,17 @@
-import { Checkout } from '../src/application/Checkout';
-import { CliAdapterMemory } from '../src/infra/cli/adapters/CliAdapterMemory';
-import { CliController } from '../src/infra/cli/CliController';
-import { CliHandler } from '../src/infra/cli/CliHandler';
-import { Database } from '../src/infra/data/Database';
-import { SqLiteConnection } from '../src/infra/database/SqLiteConnection';
-import { CurrencyGateway } from '../src/infra/gateway/CurrencyGateway';
+import { Checkout } from '../checkout/src/application/Checkout';
+import { FreightCalculator } from '../checkout/src/domain/entities/FreightCalculator';
+import { CliAdapterMemory } from '../checkout/src/infra/cli/adapters/CliAdapterMemory';
+import { CliController } from '../checkout/src/infra/cli/CliController';
+import { CliHandler } from '../checkout/src/infra/cli/CliHandler';
+import { Database } from '../checkout/src/infra/data/Database';
+import { SqLiteConnection } from '../checkout/src/infra/database/SqLiteConnection';
+import { CurrencyGateway } from '../checkout/src/infra/gateway/CurrencyGateway';
 
 describe('Cli', () => {
   it('should test the Cli', async () => {
     // Arrange
     const database = new Database(new SqLiteConnection());
-    const checkout = new Checkout(database, database, database, new CurrencyGateway(), database);
+    const checkout = new Checkout(database, database, database, new CurrencyGateway(), database, FreightCalculator);
     const checkoutSpy = jest.spyOn(checkout, 'execute');
     const cliHandler = new CliHandler()
     const cliAdapter = new CliAdapterMemory(cliHandler);

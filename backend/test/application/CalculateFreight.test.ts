@@ -3,7 +3,7 @@ import { CalculateFreight } from '../../checkout/src/application/CalculateFreigh
 import { SqLiteConnection } from '../../checkout/src/infra/database/SqLiteConnection';
 
 const database = new Database(new SqLiteConnection());
-const simulateFreight = new CalculateFreight(database, database);
+const calculateFreight = new CalculateFreight(database, database);
 const DEFAULT_CEP = '29560-000';
 
 describe('CalculateFreight', () => {
@@ -12,7 +12,7 @@ describe('CalculateFreight', () => {
 		const input = [
 			{ idProduct: 1, quantity: 1 }
 		];
-		const freight = await simulateFreight.execute(input, DEFAULT_CEP, DEFAULT_CEP);
+		const freight = await calculateFreight.execute(input, DEFAULT_CEP, DEFAULT_CEP);
 		expect(freight).toBe(10);
 	});
 
@@ -22,7 +22,7 @@ describe('CalculateFreight', () => {
 		const items = [
 			{ idProduct: 2, quantity: 1 }
 		];
-		const freight = await simulateFreight.execute(items, from, to);
+		const freight = await calculateFreight.execute(items, from, to);
 		expect(freight).toBe(62);
 	});
 });

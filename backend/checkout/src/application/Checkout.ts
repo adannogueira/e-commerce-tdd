@@ -6,6 +6,7 @@ import { CouponData } from '../domain/data/CouponData';
 import { DistanceCalculator } from '../domain/entities/DistanceCalculator';
 import { Coordinates } from '../domain/entities/Coordinates';
 import { CoordinateData } from '../domain/data/CoordinateData';
+import { FreightCalculator } from '../domain/entities/FreightCalculator';
 
 const warehouseLocation = Coordinates.create({ latitude: -12.61090938578852, longitude: -45.18807094350862 });
 export class Checkout {
@@ -14,7 +15,8 @@ export class Checkout {
 		private readonly couponData: CouponData,
 		private readonly orderData: OrderData,
 		private readonly currencyGateway: CurrencyGateway,
-		private readonly coordinateData: CoordinateData
+		private readonly coordinateData: CoordinateData,
+		private readonly freightCalculator: typeof FreightCalculator
 	) {}
 
 	public async execute (input: Input) {
@@ -26,10 +28,10 @@ export class Checkout {
 			if (!product) throw new Error("Product not found");
 			const clientLocation = await this.coordinateData.getCoordinate(input.cep);
 			const distance =  DistanceCalculator.calculate(warehouseLocation, clientLocation);
+			order.addFreight(this.freightCalculator.calculate(product, distance, item.quantity))
 			order.addItem(
 				product,
 				item.quantity,
-				distance,
 				product.currency,
 				currencies.getCurrency(product.currency)
 			);

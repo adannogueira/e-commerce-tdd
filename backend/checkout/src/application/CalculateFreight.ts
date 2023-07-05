@@ -15,13 +15,17 @@ export class CalculateFreight {
     to: string
   ): Promise<number> {
     let freight = 0;
-    const fromCoordinate = await this.coordinateData.getCoordinate(from);
-    const toCoordinate = await this.coordinateData.getCoordinate(to);
-    const distance = DistanceCalculator.calculate(fromCoordinate, toCoordinate);
+    let distance = 0;
+    if (from && to) {
+      const fromCoordinate = await this.coordinateData.getCoordinate(from);
+      const toCoordinate = await this.coordinateData.getCoordinate(to);
+      if (!fromCoordinate || !toCoordinate) throw new Error('Coordinates not found')
+      distance = DistanceCalculator.calculate(fromCoordinate, toCoordinate);
+    }
     for (const item of items) {
       const product = await this.productData.getProduct(item.idProduct);
       if (!product) throw new Error('Product not found')
-      freight += FreightCalculator.calculate(product, distance) * item.quantity;
+      freight += FreightCalculator.calculate(product, distance, item.quantity);
     }
     return freight;
   }
