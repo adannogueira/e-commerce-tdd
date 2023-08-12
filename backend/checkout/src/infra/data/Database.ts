@@ -1,30 +1,11 @@
-import { ProductData } from '../../domain/data/ProductData';
 import { CouponData } from '../../domain/data/CouponData';
-import { Product } from '../../domain/entities/Product';
 import { Coupon } from '../../domain/entities/Coupon';
 import { Order } from '../../domain/entities/Order';
 import { OrderData } from '../../domain/data/OrderData';
 import { Connection } from '../database/Connection';
-import { CoordinateData } from '../../domain/data/CoordinateData';
-import { Coordinates } from '../../domain/entities/Coordinates';
 
-export class Database implements ProductData, CouponData, OrderData, CoordinateData {
+export class Database implements CouponData, OrderData {
   public constructor(private readonly connection: Connection) {}
-
-  public async getProduct(idProduct: number): Promise<Product | null> {
-    const [foundProduct] = await this.connection.query(`select * from product where id_product = ${idProduct}`);
-    if (!foundProduct) throw new Error('Product not found');
-    return new Product({
-      idProduct: foundProduct.id_product,
-      description: foundProduct.description,
-      price: parseFloat(foundProduct.price),
-      width: parseFloat(foundProduct.width),
-      height:parseFloat(foundProduct.height),
-      length: parseFloat(foundProduct.length),
-      weight: parseFloat(foundProduct.weight),
-      currency: foundProduct.currency
-    });
-  }
 
   public async getCoupon(coupon: string): Promise<Coupon | null> {
     try {
@@ -76,32 +57,4 @@ export class Database implements ProductData, CouponData, OrderData, CoordinateD
       throw new Error(`Error consulting orders from cpf: ${cpf}`);
     }
   }
-
-  public async getCoordinate(cep: string): Promise<Coordinates> {
-    const [result] = await this.connection.query(`select * from 'cep' where code = '${cep.replace(/\D/g, '')}'`)
-    if (!result) throw new Error(`CEP ${cep} not found`);
-    return Coordinates.create({ latitude: result.lat, longitude: result.lng });
-  }
-
-  public async listProducts(): Promise<Product[]> {
-    const result = await this.connection.query(`select * from product`);
-    const products = result.map((product: any) => {
-      try {
-        return new Product({
-          idProduct: product.id_product,
-          description: product.description,
-          price: parseFloat(product.price),
-          width: parseFloat(product.width),
-          height:parseFloat(product.height),
-          length: parseFloat(product.length),
-          weight: parseFloat(product.weight),
-          currency: product.currency
-        });
-      } catch (e) {
-        return
-      }
-    })
-    return products.filter(Boolean)
-  }
-
 }
