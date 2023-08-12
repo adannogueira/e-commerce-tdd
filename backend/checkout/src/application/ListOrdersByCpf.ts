@@ -1,4 +1,3 @@
-import { Order } from '../domain/entities/Order';
 import { OrderData } from '../domain/data/OrderData';
 
 export class ListOrdersByCpf {

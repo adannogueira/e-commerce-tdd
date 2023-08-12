@@ -1,4 +1,3 @@
-import { Coupon } from '../domain/entities/Coupon';
 import { CouponData } from '../domain/data/CouponData';
 
 export class CouponValidator {
